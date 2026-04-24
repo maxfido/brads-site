@@ -1,0 +1,1282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Boombostic Health — The Business of Healthcare, Unfiltered</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* ─── tokens ─────────────────────────────────────────────── */
+:root {
+  --accent:       #2563eb;
+  --accent-dark:  #1d4ed8;
+  --accent-soft:  rgba(37,99,235,.06);
+  --bg:           #fafaf8;
+  --bg-2:         #f2f2ef;
+  --bg-3:         #e8e8e4;
+  --ink:          #0c0d10;
+  --ink-2:        #1c1f28;
+  --muted:        #6b7280;
+  --muted-2:      #9ca3af;
+  --line:         rgba(12,13,16,.08);
+  --line-2:       rgba(12,13,16,.15);
+  --dark:         #0c0d10;
+  --dark-2:       #141519;
+  --dark-line:    rgba(255,255,255,.07);
+  --dark-line-2:  rgba(255,255,255,.13);
+
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans:  'DM Sans', system-ui, sans-serif;
+  --mono:  'IBM Plex Mono', ui-monospace, monospace;
+  --maxw:  1200px;
+}
+*,*::before,*::after { box-sizing: border-box; }
+html,body { margin:0; padding:0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+::selection { background: var(--accent); color: #fff; }
+
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+
+.label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+.label::before { display: none; }
+.label.inv { color: rgba(255,255,255,.4); }
+.label.inv::before { background: var(--accent); }
+
+/* ─── nav ─────────────────────────────────────────────────── */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(18px) saturate(160%);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 60px;
+}
+.brand {
+  display: flex; align-items: center;
+  line-height: 1;
+}
+.nav-links { display: flex; gap: 26px; align-items: center; font-size: 13.5px; }
+.nav-links a {
+  color: var(--muted); transition: color .15s;
+  position: relative; padding-bottom: 2px;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-links a::after {
+  content: "";
+  position: absolute; left: 0; bottom: 0; right: 0;
+  height: 1px; background: var(--accent);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .22s cubic-bezier(.4,0,.2,1);
+}
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-logo { height: 40px; width: auto; display: block; }
+
+/* ─── buttons ─────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 16px;
+  font-family: var(--sans); font-size: 13.5px;
+  font-weight: 500; letter-spacing: -.01em;
+  border-radius: 8px; border: 1px solid transparent;
+  cursor: pointer; transition: all .18s; line-height: 1;
+  white-space: nowrap;
+}
+.btn .arr { transition: transform .18s; display: inline-block; }
+.btn:hover .arr { transform: translateX(3px); }
+.btn-ghost { border-color: var(--line-2); color: var(--ink); background: transparent; }
+.btn-ghost:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.btn-primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.btn-primary:hover { background: var(--ink-2); }
+.btn-accent { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-accent:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+
+/* ─── hero ────────────────────────────────────────────────── */
+.hero { padding: 72px 0 0; border-bottom: 1px solid var(--line); }
+.hero-layout {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 72px;
+  align-items: end;
+}
+.hero-badge {
+  display: inline-block;
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: .09em; text-transform: uppercase;
+  color: var(--muted-2); margin-bottom: 20px;
+}
+.hero-badge .pulse { display: none; }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.35} }
+.hero-badge .sep { color: var(--line-2); }
+
+h1.headline {
+  font-family: var(--serif);
+  font-size: clamp(48px, 6.8vw, 108px);
+  font-weight: 500; line-height: .96;
+  letter-spacing: -.025em; margin: 0;
+}
+h1.headline em {
+  font-style: italic; color: var(--accent);
+  font-weight: 400;
+}
+h1.headline .strike {
+  position: relative; color: var(--muted);
+}
+h1.headline .strike::after {
+  content: "";
+  position: absolute; left: -1%; right: -1%; top: 50%;
+  height: .055em; background: var(--ink);
+  border-radius: 2px; transform: rotate(-2deg);
+}
+
+.hero-sub {
+  margin-top: 26px; max-width: 52ch;
+  font-size: 17px; line-height: 1.6; color: var(--muted);
+}
+.hero-sub strong { color: var(--ink); font-weight: 500; }
+.hero-cta { margin-top: 32px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.hero-count {
+  font-family: var(--mono); font-size: 11px;
+  color: var(--muted-2); letter-spacing: .04em; margin-left: 6px;
+}
+
+/* portrait */
+.portrait {
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  border: 1px solid var(--line-2);
+  background: var(--bg-2);
+  position: relative;
+}
+.portrait img { width: 100%; height: 100%; object-fit: cover; }
+.portrait-overlay {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 24px 20px 20px;
+  background: linear-gradient(to top, rgba(12,13,16,.72) 65%, transparent);
+  display: flex; justify-content: space-between; align-items: flex-end;
+}
+.portrait-name {
+  font-family: var(--serif); font-size: 16px;
+  font-weight: 500; color: #fff;
+  letter-spacing: -.015em; line-height: 1.2;
+}
+.portrait-name em { font-style: italic; opacity: .8; }
+.portrait-role {
+  font-family: var(--mono); font-size: 10px;
+  color: rgba(255,255,255,.5);
+  letter-spacing: .09em; text-transform: uppercase;
+  text-align: right;
+}
+
+/* kpi strip */
+.kpis {
+  margin-top: 64px;
+  display: grid; grid-template-columns: repeat(4,1fr);
+  border-top: 1px solid var(--line);
+}
+.kpi {
+  padding: 22px 28px 28px;
+  border-right: 1px solid var(--line);
+}
+.kpi:last-child { border-right: none; }
+.kpi .k {
+  font-family: var(--mono); font-size: 10.5px;
+  color: var(--muted-2); letter-spacing: .09em; text-transform: uppercase;
+}
+.kpi .v {
+  font-family: var(--serif); font-size: 23px;
+  font-weight: 500; letter-spacing: -.02em;
+  line-height: 1.1; margin-top: 6px;
+}
+.kpi .s { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+
+/* ─── listen strip ────────────────────────────────────────── */
+.listen {
+  background: var(--dark);
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+.listen-inner {
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 32px;
+  flex-wrap: wrap; padding: 20px 0;
+}
+.listen-lbl {
+  font-family: var(--mono); font-size: 10.5px;
+  color: rgba(255,255,255,.38);
+  letter-spacing: .1em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+}
+.listen-lbl .live { display: none; }
+@keyframes ripple {
+  0%,100%{ box-shadow: 0 0 0 0 rgba(37,99,235,.6); }
+  60%{ box-shadow: 0 0 0 8px transparent; }
+}
+.platforms { display: flex; gap: 8px; flex-wrap: wrap; }
+.plat {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 8px 15px;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 6px; background: transparent;
+  color: rgba(255,255,255,.75);
+  font-size: 13.5px; transition: all .18s;
+}
+.plat:hover {
+  background: rgba(255,255,255,.07);
+  border-color: rgba(255,255,255,.22); color: #fff;
+}
+.plat svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+/* ─── section skeleton ────────────────────────────────────── */
+section.block { padding: 96px 0; border-bottom: 1px solid var(--line); }
+section.dark  { background: var(--dark); color: rgba(255,255,255,.9); border-color: var(--dark-line); }
+#about        { background: #16181f; }
+section.tinted{ background: var(--bg-2); }
+
+.sec-head {
+  display: grid; grid-template-columns: 1fr 2fr;
+  gap: 64px; align-items: start;
+  margin-bottom: 52px; padding-bottom: 32px;
+  border-bottom: 1px solid var(--line);
+}
+section.dark .sec-head { border-color: var(--dark-line); }
+.sec-head h2 {
+  font-family: var(--serif);
+  font-size: clamp(28px, 3.4vw, 46px);
+  font-weight: 500; line-height: 1.1;
+  letter-spacing: -.02em; margin: 12px 0 0;
+  max-width: 18ch;
+}
+section.dark .sec-head h2 { color: #fff; }
+.sec-head h2 em { font-style: italic; color: var(--accent); font-weight: 400; }
+.sec-head .lede {
+  font-size: 16px; line-height: 1.65;
+  color: var(--muted); max-width: 58ch; padding-top: 28px;
+}
+section.dark .sec-head .lede { color: rgba(255,255,255,.68); }
+
+/* ─── featured episode ────────────────────────────────────── */
+.featured {
+  display: grid; grid-template-columns: 1.1fr 1fr;
+  margin-bottom: 48px;
+  border: 1px solid var(--line-2);
+  overflow: hidden;
+}
+.feat-thumb {
+  aspect-ratio: 16/10;
+  background: var(--bg-3);
+  position: relative; overflow: hidden;
+}
+.feat-thumb img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .45s cubic-bezier(.4,0,.2,1);
+}
+.featured:hover .feat-thumb img { transform: scale(1.03); }
+.play-btn {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.play-ring {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: rgba(37,99,235,.88);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .2s, background .18s;
+  flex-shrink: 0;
+}
+.featured:hover .play-ring { transform: scale(1.08); background: var(--accent); }
+.play-ring svg { margin-left: 3px; }
+
+.feat-info {
+  padding: 36px 40px;
+  display: flex; flex-direction: column;
+  border-left: 1px solid var(--line-2);
+}
+.feat-badge {
+  font-family: var(--mono); font-size: 10.5px;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--accent);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.feat-badge::before {
+  content: ""; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent);
+}
+.feat-info h3 {
+  font-family: var(--serif); font-size: 27px;
+  font-weight: 500; letter-spacing: -.02em; line-height: 1.1;
+  margin: 12px 0 0;
+}
+.feat-info .guest {
+  font-size: 14px; color: var(--muted);
+  margin-top: 12px; line-height: 1.5;
+}
+.feat-info .guest b { color: var(--ink-2); font-weight: 500; }
+.feat-info .dur {
+  font-family: var(--mono); font-size: 11px;
+  color: var(--muted-2); letter-spacing: .06em;
+  text-transform: uppercase; margin-top: 10px;
+}
+.feat-ctas {
+  margin-top: auto; padding-top: 24px;
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+
+/* episode list */
+.ep-list { border-top: 1px solid var(--line); }
+.ep-row {
+  display: grid;
+  grid-template-columns: 60px 100px 1.6fr 1fr 90px 34px;
+  gap: 20px; align-items: center;
+  padding: 15px 0; padding-left: 2px;
+  border-bottom: 1px solid var(--line);
+  border-left: 2px solid transparent;
+  cursor: pointer;
+  transition: all .18s;
+}
+.ep-row:hover {
+  background: var(--accent-soft);
+  border-left-color: var(--accent);
+  padding-left: 14px;
+}
+.ep-row:hover .ep-title { color: var(--accent-dark); }
+.ep-num {
+  font-family: var(--mono); font-size: 11.5px;
+  color: var(--muted-2); letter-spacing: .04em;
+}
+.ep-thumb {
+  aspect-ratio: 16/9; background: var(--bg-2);
+  overflow: hidden; border: 1px solid var(--line);
+}
+.ep-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.ep-title {
+  font-size: 15.5px; font-weight: 500;
+  letter-spacing: -.01em; line-height: 1.3;
+  transition: color .18s;
+}
+.ep-guest { font-size: 13px; color: var(--muted); line-height: 1.4; }
+.ep-guest b { color: var(--ink-2); font-weight: 500; }
+.ep-meta {
+  font-family: var(--mono); font-size: 10.5px;
+  color: var(--muted-2); letter-spacing: .05em;
+  text-transform: uppercase; line-height: 1.6;
+}
+.ep-play {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 1px solid var(--line-2); background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  transition: all .18s; flex-shrink: 0;
+}
+.ep-row:hover .ep-play {
+  background: var(--accent); border-color: var(--accent); color: #fff;
+}
+.ep-foot {
+  margin-top: 28px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.ep-foot .note {
+  font-family: var(--mono); font-size: 11px;
+  color: var(--muted-2); letter-spacing: .05em; text-transform: uppercase;
+}
+
+/* ─── about brad ──────────────────────────────────────────── */
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1.5fr;
+  gap: 72px; align-items: start;
+}
+.about-photo {
+  aspect-ratio: 4/5; overflow: hidden;
+  border: 1px solid var(--dark-line); position: relative;
+}
+.about-photo img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(.12) contrast(1.05);
+}
+.about-photo::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(12,13,16,.65));
+}
+.about-photo .cap {
+  position: absolute; left: 16px; right: 16px; bottom: 16px; z-index: 2;
+  display: flex; justify-content: space-between; align-items: flex-end;
+}
+.about-photo .cap b {
+  font-family: var(--serif); font-size: 15px;
+  color: #fff; font-weight: 500; letter-spacing: -.01em;
+  display: block; margin-bottom: 3px;
+}
+.about-photo .cap .sub {
+  font-family: var(--mono); font-size: 10px;
+  color: rgba(255,255,255,.5); letter-spacing: .08em; text-transform: uppercase;
+}
+
+.about-body blockquote {
+  font-family: var(--serif); font-style: italic;
+  font-size: 23px; line-height: 1.3; letter-spacing: -.015em;
+  margin: 0 0 28px; padding-left: 20px;
+  border-left: 2px solid var(--accent); color: #fff;
+}
+.about-body blockquote cite {
+  display: block; margin-top: 12px;
+  font-family: var(--mono); font-style: normal;
+  font-size: 10px; letter-spacing: .09em; text-transform: uppercase;
+  color: rgba(255,255,255,.55);
+}
+.about-body p {
+  font-size: 15px; line-height: 1.7;
+  color: rgba(255,255,255,.78);
+  margin: 0 0 14px; max-width: 60ch;
+}
+.about-body p b { color: #fff; font-weight: 500; }
+.accolades {
+  margin-top: 36px;
+  border-top: 1px solid var(--dark-line);
+}
+.accolade {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 12px 0; border-bottom: 1px solid var(--dark-line); gap: 16px;
+}
+.accolade .n { font-size: 13.5px; color: rgba(255,255,255,.88); }
+.accolade .y {
+  font-family: var(--mono); font-size: 10px;
+  color: rgba(255,255,255,.45); letter-spacing: .06em; flex-shrink: 0;
+}
+
+/* ─── ecosystem ───────────────────────────────────────────── */
+.eco-grid {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  border: 1px solid var(--line);
+}
+.eco-card {
+  padding: 32px 28px;
+  border-right: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 14px;
+  min-height: 260px; transition: background .2s;
+  position: relative; overflow: hidden;
+}
+.eco-card:last-child { border-right: none; }
+.eco-card::after {
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--accent);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .25s cubic-bezier(.4,0,.2,1);
+}
+.eco-card:hover::after { transform: scaleX(1); }
+.eco-card:hover { background: var(--bg); }
+.eco-num {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--muted-2); letter-spacing: .09em; text-transform: uppercase;
+}
+.eco-name {
+  font-family: var(--serif); font-size: 21px;
+  font-weight: 600; letter-spacing: -.02em;
+}
+.eco-card h3 {
+  font-size: 13.5px; font-weight: 500; letter-spacing: -.005em;
+  margin: 0; line-height: 1.35; color: var(--ink-2);
+}
+.eco-card p { font-size: 13px; color: var(--muted); line-height: 1.55; margin: 0; flex: 1; }
+.eco-link {
+  font-family: var(--mono); font-size: 10.5px;
+  color: var(--accent); letter-spacing: .05em;
+  display: inline-flex; align-items: center; gap: 5px; margin-top: auto;
+}
+.eco-link .arr { transition: transform .18s; }
+.eco-card:hover .eco-link .arr { transform: translateX(3px); }
+
+/* ─── press ───────────────────────────────────────────────── */
+.press-grid {
+  display: grid; grid-template-columns: 1.55fr 1fr 1fr;
+  border: 1px solid var(--line);
+}
+.press-card {
+  padding: 30px 28px;
+  border-right: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 12px;
+  min-height: 220px; cursor: pointer;
+  transition: background .18s;
+}
+.press-card:last-child { border-right: none; }
+.press-card:hover { background: var(--bg-2); }
+.press-card.hero { grid-row: span 2; background: var(--ink); color: #fff; border-color: var(--ink); min-height: 480px; }
+.press-card.hero:hover { background: var(--ink-2); }
+.press-src {
+  font-family: var(--mono); font-size: 10.5px;
+  letter-spacing: .09em; text-transform: uppercase; color: var(--muted);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.press-card.hero .press-src { color: rgba(255,255,255,.38); }
+.press-card h3 {
+  font-family: var(--serif); font-weight: 400;
+  font-size: 18px; line-height: 1.2; letter-spacing: -.015em;
+  margin: 0; max-width: 26ch;
+}
+.press-card.hero h3 {
+  font-size: 32px; max-width: 14ch; color: #fff;
+}
+.press-card p { font-size: 13px; color: var(--muted); line-height: 1.55; margin: 0; flex: 1; }
+.press-card.hero p { color: rgba(255,255,255,.52); }
+.press-foot {
+  margin-top: auto; display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .05em; color: var(--muted);
+}
+.press-card.hero .press-foot { color: rgba(255,255,255,.38); }
+.press-arr { transition: transform .18s; }
+.press-card:hover .press-arr { transform: translateX(3px); }
+.press-card:nth-child(2) { border-bottom: 1px solid var(--line); }
+.press-card:nth-child(3) { border-bottom: 1px solid var(--line); border-right: none; }
+
+/* ─── newsletter ──────────────────────────────────────────── */
+.nl {
+  background: var(--dark); color: rgba(255,255,255,.9);
+  position: relative; overflow: hidden;
+}
+.nl::before {
+  content: "";
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(900px 350px at 0% 0%, rgba(37,99,235,.24), transparent 55%),
+    radial-gradient(600px 280px at 100% 100%, rgba(37,99,235,.14), transparent 55%);
+}
+.nl-inner {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1.2fr 1fr;
+  gap: 80px; align-items: center; padding: 100px 0;
+}
+.nl h2 {
+  font-family: var(--serif);
+  font-size: clamp(34px, 4.5vw, 56px);
+  font-weight: 500; line-height: 1.08; letter-spacing: -.02em;
+  margin: 14px 0 0; color: #fff; max-width: 16ch;
+}
+.nl h2 em { font-style: italic; color: var(--accent); font-weight: 400; }
+.nl p {
+  font-size: 15.5px; line-height: 1.6;
+  color: rgba(255,255,255,.52); margin-top: 18px; max-width: 44ch;
+}
+.nl-form { display: flex; flex-direction: column; gap: 10px; }
+.nl-field {
+  display: flex;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 10px; overflow: hidden;
+  background: rgba(255,255,255,.04);
+  transition: border-color .2s;
+}
+.nl-field:focus-within { border-color: var(--accent); }
+.nl-field input {
+  flex: 1; border: none; background: transparent;
+  color: rgba(255,255,255,.9);
+  padding: 15px 18px; font: inherit; font-size: 14.5px; outline: none;
+}
+.nl-field input::placeholder { color: rgba(255,255,255,.32); }
+.nl-field button {
+  border: none; padding: 0 22px;
+  background: var(--accent); color: #fff;
+  font: inherit; font-size: 13.5px; font-weight: 500; cursor: pointer;
+  transition: background .18s;
+}
+.nl-field button:hover { background: var(--accent-dark); }
+.nl-fine {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+}
+
+/* ─── footer ──────────────────────────────────────────────── */
+footer { background: var(--bg-2); padding: 72px 0 40px; }
+.foot-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px; margin-bottom: 56px;
+}
+.foot-brand h3 {
+  font-family: var(--serif); font-size: 34px;
+  font-weight: 500; letter-spacing: -.015em;
+  margin: 10px 0 0; max-width: 16ch; line-height: 1.15;
+}
+.foot-brand h3 em { font-style: italic; color: var(--accent); font-weight: 400; }
+.foot-brand p { color: var(--muted); max-width: 34ch; margin: 14px 0 0; font-size: 13.5px; line-height: 1.55; }
+.fcol h5 {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted-2); margin: 0 0 16px;
+}
+.fcol a { display: block; padding: 5px 0; font-size: 13.5px; color: var(--ink-2); transition: color .15s; }
+.fcol a:hover { color: var(--accent); }
+.foot-btm {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 24px; border-top: 1px solid var(--line);
+  font-family: var(--mono); font-size: 10px;
+  color: var(--muted-2); letter-spacing: .07em; text-transform: uppercase;
+}
+
+/* ─── contact form ────────────────────────────────────────── */
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1.6fr;
+  gap: 80px; align-items: start;
+}
+.contact-info p {
+  font-size: 15px; line-height: 1.65; color: var(--muted);
+  margin: 0 0 28px;
+}
+.contact-reasons {
+  display: flex; flex-direction: column; gap: 0;
+  border-top: 1px solid var(--line);
+}
+.contact-reason {
+  padding: 13px 0; border-bottom: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 14px; color: var(--ink-2);
+}
+.contact-reason span {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--muted-2); letter-spacing: .07em; text-transform: uppercase;
+}
+.cf { display: flex; flex-direction: column; gap: 14px; }
+.cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.cf-field {
+  display: flex; flex-direction: column; gap: 6px;
+}
+.cf-field label {
+  font-family: var(--mono); font-size: 10.5px;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+}
+.cf-field input,
+.cf-field select,
+.cf-field textarea {
+  font-family: var(--sans); font-size: 14.5px; color: var(--ink);
+  background: var(--bg); border: 1px solid var(--line-2);
+  border-radius: 8px; padding: 12px 14px; outline: none;
+  transition: border-color .18s;
+  appearance: none; width: 100%;
+}
+.cf-field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M2 4l4 4 4-4z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center;
+  padding-right: 36px; cursor: pointer;
+}
+.cf-field input:focus,
+.cf-field select:focus,
+.cf-field textarea:focus { border-color: var(--accent); }
+.cf-field input::placeholder,
+.cf-field textarea::placeholder { color: var(--muted-2); }
+.cf-field textarea { resize: vertical; min-height: 130px; line-height: 1.55; }
+.cf-submit {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  flex-wrap: wrap;
+}
+.cf-fine {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--muted-2); letter-spacing: .07em; text-transform: uppercase;
+}
+#cf-status {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .05em;
+  display: none;
+}
+#cf-status.ok  { color: #16a34a; display: block; }
+#cf-status.err { color: #dc2626; display: block; }
+
+/* ─── tablet (960px) ──────────────────────────────────────── */
+@media (max-width: 960px) {
+  .nav-links { display: none; }
+  .btn-ghost { display: none; }
+
+  .hero { padding: 52px 0 0; }
+  .hero-layout { grid-template-columns: 1fr; gap: 40px; }
+  .portrait { max-width: 380px; }
+
+  .kpis { grid-template-columns: 1fr 1fr; }
+  .kpi:nth-child(2) { border-right: none; }
+  .kpi:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+
+  section.block { padding: 72px 0; }
+
+  .sec-head { grid-template-columns: 1fr; gap: 16px; margin-bottom: 36px; }
+  .sec-head .lede { padding-top: 0; }
+
+  .featured { grid-template-columns: 1fr; }
+  .feat-info { border-left: none; border-top: 1px solid var(--line-2); padding: 28px; }
+
+  .ep-row { grid-template-columns: 44px 1fr 32px; gap: 14px; padding-left: 0; }
+  .ep-row:hover { padding-left: 8px; }
+  .ep-thumb, .ep-guest, .ep-meta { display: none; }
+
+  .about-grid { grid-template-columns: 1fr; gap: 36px; }
+  .about-photo { max-height: 360px; }
+
+  .eco-grid { grid-template-columns: 1fr 1fr; }
+  .eco-card:nth-child(2) { border-right: none; }
+  .eco-card:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .eco-card { min-height: auto; padding: 28px 24px; }
+
+  .press-grid { grid-template-columns: 1fr; }
+  .press-card.hero { grid-row: span 1; min-height: 260px; }
+  .press-card { border-right: none !important; border-bottom: 1px solid var(--line); }
+
+  .nl-inner { grid-template-columns: 1fr; gap: 32px; padding: 72px 0; }
+
+  .foot-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+  .cf-row { grid-template-columns: 1fr; }
+}
+
+/* ─── mobile (480px) ──────────────────────────────────────── */
+@media (max-width: 480px) {
+  .wrap { padding: 0 20px; }
+
+  .nav-inner { height: 56px; }
+  .nav-logo { height: 32px; }
+  .btn-accent { padding: 8px 14px; font-size: 13px; }
+
+  .hero { padding: 40px 0 0; }
+  .hero-badge { font-size: 10px; margin-bottom: 14px; }
+  h1.headline { font-size: clamp(40px, 11vw, 64px); line-height: .97; }
+  .hero-sub { font-size: 15.5px; margin-top: 20px; }
+  .hero-cta { flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 24px; }
+  .hero-count { margin-left: 0; }
+  .portrait { max-width: 100%; }
+
+  .kpis { margin-top: 40px; }
+  .kpi { padding: 18px 16px 22px; }
+  .kpi .v { font-size: 19px; }
+
+  .listen-inner { flex-direction: column; align-items: flex-start; gap: 14px; padding: 18px 0; }
+  .platforms { gap: 6px; }
+  .plat { font-size: 12.5px; padding: 7px 12px; }
+
+  section.block { padding: 56px 0; }
+
+  .sec-head { margin-bottom: 28px; }
+  .sec-head h2 { font-size: clamp(26px, 8vw, 38px); }
+
+  .feat-info { padding: 22px 20px; }
+  .feat-info h3 { font-size: 22px; }
+  .feat-ctas { flex-direction: column; }
+  .feat-ctas .btn { width: 100%; justify-content: center; }
+
+  .ep-row { grid-template-columns: 36px 1fr 30px; gap: 10px; padding: 13px 0; }
+  .ep-title { font-size: 14px; }
+  .ep-foot { flex-direction: column; align-items: flex-start; gap: 12px; }
+
+  .about-photo { max-height: 280px; }
+  .about-body blockquote { font-size: 19px; }
+
+  .eco-grid { grid-template-columns: 1fr; }
+  .eco-card { border-right: none; border-bottom: 1px solid var(--line); }
+  .eco-card:last-child { border-bottom: none; }
+
+  .press-card h3 { font-size: 16px; }
+  .press-card.hero h3 { font-size: 24px; }
+
+  .nl-inner { padding: 56px 0; }
+  .nl h2 { font-size: clamp(28px, 9vw, 44px); }
+  .nl-field { flex-direction: column; border-radius: 8px; }
+  .nl-field input { padding: 14px 16px; border-radius: 8px; }
+  .nl-field button { padding: 14px; border-radius: 0 0 8px 8px; text-align: center; }
+
+  .foot-grid { grid-template-columns: 1fr; gap: 32px; }
+  .foot-brand h3 { font-size: 26px; }
+  .foot-btm { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+  .cf-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══════════════════════════════════════════════════ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#">
+      <img src="logo.avif" alt="Boombostic Health" class="nav-logo">
+    </a>
+    <nav class="nav-links">
+      <a href="#episodes">Episodes</a>
+      <a href="#about">About Brad</a>
+      <a href="#ecosystem">Ecosystem</a>
+      <a href="#press">Press</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-ghost" href="#episodes">Browse episodes</a>
+      <a class="btn btn-accent" href="#newsletter">Subscribe <span class="arr">→</span></a>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ HERO ═══════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-layout">
+      <div>
+        <div class="hero-badge">Season 2 · 60+ Episodes</div>
+        <h1 class="headline">
+          The business of healthcare is <span class="strike">broken</span>. We are on a mission to <em>fix&nbsp;it.</em>
+        </h1>
+        <p class="hero-sub">
+          Conversations with the executives, founders, and investors working on the hard problems in American healthcare, hosted by serial entrepreneur <strong>Bradley Bostic</strong>.
+        </p>
+        <div class="hero-cta">
+          <a href="#episodes" class="btn btn-accent">
+            <svg viewBox="0 0 14 14" fill="currentColor" width="12" height="12"><path d="M3 2l9 5-9 5z"/></svg>
+            Play the latest episode
+          </a>
+          <a href="#episodes" class="btn btn-ghost">Browse all episodes <span class="arr">→</span></a>
+          <span class="hero-count">60+ episodes · 40+ hrs</span>
+        </div>
+      </div>
+      <div>
+        <div class="portrait">
+          <img src="https://static.wixstatic.com/media/d91f68_144d01b978bb4eb09e94b55cfcadc705~mv2.png/v1/fill/w_800,h_800,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/d91f68_144d01b978bb4eb09e94b55cfcadc705~mv2.png" alt="Bradley Bostic" onerror="this.style.display='none'">
+          <div class="portrait-overlay">
+            <div>
+              <div class="portrait-name">Bradley <em>Bostic</em></div>
+            </div>
+            <div class="portrait-role">Host · Founder</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi">
+        <div class="k">The Host</div>
+        <div class="v">Bradley Bostic</div>
+        <div class="s">Entrepreneur · Investor · 30+ patents</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Reach</div>
+        <div class="v">100M+ lives</div>
+        <div class="s">Served through Brad's portfolio companies</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Cadence</div>
+        <div class="v">Weekly drop</div>
+        <div class="s">New episode · audio + video</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Format</div>
+        <div class="v">Long-form &amp; In-the-Wild</div>
+        <div class="s">Studio + live from HLTH, ViVE, HIMSS</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LISTEN STRIP ═══════════════════════════════════════════ -->
+<div class="listen">
+  <div class="wrap listen-inner">
+    <div class="listen-lbl"><span class="live"></span>Listen anywhere</div>
+    <div class="platforms">
+      <a class="plat" href="https://open.spotify.com/show/6aHEWZVVJ3oYTPh8j8Ygxd">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm4.6 14.4a.6.6 0 0 1-.9.2c-2.4-1.5-5.4-1.8-9-1-.3.1-.7-.1-.8-.5-.1-.3.1-.7.5-.8 3.9-.9 7.2-.5 9.9 1.2.3.2.4.6.3.9Zm1.2-2.7a.8.8 0 0 1-1.1.2c-2.8-1.7-7-2.2-10.3-1.2a.8.8 0 1 1-.5-1.5c3.8-1.1 8.4-.6 11.6 1.4a.8.8 0 0 1 .3 1.1Zm.1-2.8C14.6 9 9 8.7 5.7 9.7c-.5.2-1.1-.2-1.3-.7-.2-.5.2-1.1.7-1.3 3.8-1.2 10.1-.8 14 1.5.5.3.7.9.4 1.4-.3.5-.9.6-1.4.3Z"/></svg>
+        Spotify
+      </a>
+      <a class="plat" href="https://podcasts.apple.com/us/podcast/boombostic-health/id1789975476">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-1 20v-3.1a7 7 0 1 1 2 0V22a10 10 0 0 0-1-20Zm0 5a4 4 0 1 0 4 4 4 4 0 0 0-4-4Zm0 2a2 2 0 1 1-2 2 2 2 0 0 1 2-2Z"/></svg>
+        Apple Podcasts
+      </a>
+      <a class="plat" href="https://www.youtube.com/@BoombosticHealth">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7a2.6 2.6 0 0 0-1.8-1.8C19.2 5 12 5 12 5s-7.2 0-8.8.5A2.6 2.6 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.6 2.6 0 0 0 1.8 1.8c1.6.5 8.8.5 8.8.5s7.2 0 8.8-.5a2.6 2.6 0 0 0 1.8-1.8C23 15.2 23 12 23 12ZM9.8 15.3v-6.6L15.5 12Z"/></svg>
+        YouTube
+      </a>
+      <a class="plat" href="https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7259254152554250241">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5h-17A1.5 1.5 0 0 0 2 5v14a1.5 1.5 0 0 0 1.5 1.5h17A1.5 1.5 0 0 0 22 19V5a1.5 1.5 0 0 0-1.5-1.5ZM8.3 18H5.7V9.7h2.6Zm-1.3-9.5a1.5 1.5 0 1 1 1.5-1.5 1.5 1.5 0 0 1-1.5 1.5ZM18.3 18h-2.6v-4c0-1-.4-1.7-1.3-1.7a1.4 1.4 0 0 0-1.3.9 1.7 1.7 0 0 0-.1.6V18h-2.6V9.7H13v1.1a2.6 2.6 0 0 1 2.4-1.3c1.7 0 3 1.1 3 3.5Z"/></svg>
+        LinkedIn Newsletter
+      </a>
+    </div>
+    <span style="font-family:var(--mono);font-size:10.5px;color:rgba(255,255,255,.3);letter-spacing:.07em;text-transform:uppercase;flex-shrink:0;">New every Tuesday</span>
+  </div>
+</div>
+
+<!-- ═══ EPISODES ════════════════════════════════════════════════ -->
+<section class="block" id="episodes">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="label">01 · Episodes</span>
+        <h2>60+ conversations.<br><em>New every Tuesday.</em></h2>
+      </div>
+      <p class="lede">
+        Weekly conversations with the executives, clinicians, and builders working on AI, diagnostics, care delivery, genomics, and payment reform.
+      </p>
+    </div>
+
+    <div class="featured">
+      <a class="feat-thumb" href="https://www.youtube.com/watch?v=PY6r8JRO26A" target="_blank" rel="noopener">
+        <img src="https://i.ytimg.com/vi/PY6r8JRO26A/maxresdefault.jpg" alt="Building a Healthcare System That Actually Works">
+        <div class="play-btn">
+          <div class="play-ring">
+            <svg viewBox="0 0 16 16" fill="white" width="18" height="18"><path d="M4 3l9 5-9 5z"/></svg>
+          </div>
+        </div>
+      </a>
+      <div class="feat-info">
+        <span class="feat-badge">Ep. 57 · Featured</span>
+        <h3>Building a Healthcare System That Actually Works</h3>
+        <p class="guest">with <b>Dennis Murphy</b>, President &amp; CEO of IU Health, on scaling innovation across 16 hospitals, 300+ clinical sites, values-based culture, and platform-first AI strategy.</p>
+        <div class="dur">37 min · Long-form · Recorded in-studio</div>
+        <div class="feat-ctas">
+          <a href="#" class="btn btn-primary">
+            <svg viewBox="0 0 14 14" fill="currentColor" width="12" height="12"><path d="M3 2l9 5-9 5z"/></svg>
+            Play episode
+          </a>
+          <a href="#" class="btn btn-ghost">Show notes <span class="arr">→</span></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ep-list" id="ep-list"></div>
+
+    <div class="ep-foot">
+      <span class="note">Showing 12 of 60+ episodes</span>
+      <a href="#" class="btn btn-ghost">Load more <span class="arr">↓</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT BRAD ══════════════════════════════════════════════ -->
+<section class="block dark" id="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="label inv">02 · About the Host</span>
+        <h2>Bradley <em>Bostic.</em></h2>
+      </div>
+      <p class="lede">Entrepreneur · Investor · Inventor · Podcaster. 25 years building high-growth healthtech. Inventor on 30+ patents. Portfolio serving 100M+ lives.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-photo">
+        <img src="https://static.wixstatic.com/media/d91f68_144d01b978bb4eb09e94b55cfcadc705~mv2.png/v1/fill/w_900,h_900,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/d91f68_144d01b978bb4eb09e94b55cfcadc705~mv2.png" alt="Bradley Bostic" onerror="this.style.display='none'">
+        <div class="cap">
+          <div>
+            <b>Bradley Bostic</b>
+            <span class="sub">Founder &amp; Host</span>
+          </div>
+          <span class="sub">Indianapolis, IN</span>
+        </div>
+      </div>
+      <div class="about-body">
+        <blockquote>
+          "The future of healthcare delivery isn't reactive. It's predictive. It's personal. It's here. The time is now for bold leaders to harness the power of AI to transform it."
+          <cite>— Bradley Bostic</cite>
+        </blockquote>
+        <p>
+          Bradley Bostic has spent <b>25 years building technology companies</b> at the intersection of data and healthcare. He has founded, funded, and operated multiple healthtech businesses focused on improving clinical and financial outcomes.
+        </p>
+        <p>
+          The loss of his mother to colon cancer at 56 was a pivotal moment, <b>inspiring him to address the inefficiencies</b> in the healthcare system he encountered early in his career. This personal tragedy fueled his drive to innovate and improve patient outcomes.
+        </p>
+        <p>
+          His portfolio companies apply AI and machine learning to clinical data, medication management, and device safety — reaching <b>over 100 million people</b> across the US.
+        </p>
+        <div class="accolades">
+          <div class="accolade"><span class="n">Dynamic Business Leader of the Year</span><span class="y">–</span></div>
+          <div class="accolade"><span class="n">Becker's Top Healthcare Entrepreneur</span><span class="y">–</span></div>
+          <div class="accolade"><span class="n">Crain's Top Healthcare Leader</span><span class="y">2025</span></div>
+          <div class="accolade"><span class="n">Indiana 250 Honoree</span><span class="y">2025</span></div>
+          <div class="accolade"><span class="n">Slice of Healthcare · Top Digital Health Leader</span><span class="y">2025</span></div>
+          <div class="accolade"><span class="n">Inventor on 30+ patents</span><span class="y">25+ yrs</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ECOSYSTEM ═══════════════════════════════════════════════ -->
+<section class="block tinted" id="ecosystem">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="label">03 · The Ecosystem</span>
+        <h2>Four companies. <em>One connected approach.</em></h2>
+      </div>
+      <p class="lede">A connected ecosystem of mission-driven companies tackling the hardest problems in healthcare: fragmented data, dangerous prescriptions, failing devices, and a shortage of capital going to the right ideas.</p>
+    </div>
+    <div class="eco-grid">
+      <a class="eco-card" href="https://hc1.com/">
+        <div class="eco-num">01</div>
+        <div class="eco-name">hc1</div>
+        <h3>Turning lab data into strategic assets</h3>
+        <p>Breaks data silos to provide clinicians with actionable insights and personalizes care with real-time lab intelligence.</p>
+        <span class="eco-link">hc1.com <span class="arr">→</span></span>
+      </a>
+      <a class="eco-card" href="https://decisionrx.com/">
+        <div class="eco-num">02</div>
+        <div class="eco-name">DecisionRx</div>
+        <h3>Smarter prescriptions. Safer patients.</h3>
+        <p>Reduces medication risks with pharmacist-partnered, AI-driven medication management.</p>
+        <span class="eco-link">decisionrx.com <span class="arr">→</span></span>
+      </a>
+      <a class="eco-card" href="https://3aware.ai/">
+        <div class="eco-num">03</div>
+        <div class="eco-name">3Aware</div>
+        <h3>Device safety you can trust</h3>
+        <p>Monitors medical devices in real time to identify safety issues before they reach patients.</p>
+        <span class="eco-link">3aware.ai <span class="arr">→</span></span>
+      </a>
+      <a class="eco-card" href="https://www.healthcloudcapital.com/">
+        <div class="eco-num">04</div>
+        <div class="eco-name">Health Cloud Capital</div>
+        <h3>Building and investing in innovation</h3>
+        <p>A private equity firm investing in high-growth healthtech data innovations.</p>
+        <span class="eco-link">healthcloudcapital.com <span class="arr">→</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRESS ════════════════════════════════════════════════════ -->
+<section class="block" id="press">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="label">04 · Press &amp; Recognition</span>
+        <h2>The work, <em>noticed.</em></h2>
+      </div>
+      <p class="lede">A selection of coverage, recognition, and appearances from 2024 and 2025.</p>
+    </div>
+    <div class="press-grid">
+      <article class="press-card hero">
+        <div class="press-src"><span>Crain's Chicago Business · Notable 2025</span></div>
+        <h3>Named among the Most Notable Leaders in Healthcare Technology.</h3>
+        <p>Recognized among 27 executives, founders, and advisers driving innovation in AI, telehealth, clinical research, and data platforms transforming how hospitals, payers, and providers improve patient outcomes nationwide.</p>
+        <div class="press-foot"><span>Read the feature</span><span class="press-arr">→</span></div>
+      </article>
+      <article class="press-card">
+        <div class="press-src"><span>HLTH 2025 · Las Vegas</span></div>
+        <h3>Featured podcaster recording live on the floor.</h3>
+        <p>Boombostic Health: In the Wild. On-the-record conversations with the top leaders defining next-gen healthcare.</p>
+        <div class="press-foot"><span>See the lineup</span><span class="press-arr">→</span></div>
+      </article>
+      <article class="press-card">
+        <div class="press-src"><span>IBJ · Indiana 250 · 2025</span></div>
+        <h3>Indiana 250 honoree.</h3>
+        <p>Among Indiana's most influential leaders driving impact across business, philanthropy, government, the arts, and nonprofits.</p>
+        <div class="press-foot"><span>View edition</span><span class="press-arr">→</span></div>
+      </article>
+      <article class="press-card">
+        <div class="press-src"><span>Slice of Healthcare</span></div>
+        <h3>Top Digital Health Leaders, 2025.</h3>
+        <p>Public-selected list of 50 leaders defining the next chapter of digital health.</p>
+        <div class="press-foot"><span>See list</span><span class="press-arr">→</span></div>
+      </article>
+      <article class="press-card">
+        <div class="press-src"><span>LinkedIn Newsletter</span></div>
+        <h3>Weekly dispatch, straight to your inbox.</h3>
+        <p>A short, sharp read on what moved in the business of healthcare this week.</p>
+        <div class="press-foot"><span>Subscribe</span><span class="press-arr">→</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ════════════════════════════════════════════════ -->
+<section class="block tinted" id="contact">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="label">06 · Contact</span>
+        <h2>Get in <em>touch.</em></h2>
+      </div>
+      <p class="lede">Use the form for guest pitches, sponsorship inquiries, speaking requests, or anything else. Brad's team reads every submission.</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p>Boombostic Health records weekly in-studio and on location at major health conferences. If you have a story worth telling or a product worth scrutinizing, reach out.</p>
+        <div class="contact-reasons">
+          <div class="contact-reason">Pitch a guest <span>Guest</span></div>
+          <div class="contact-reason">Sponsorship &amp; advertising <span>Sponsor</span></div>
+          <div class="contact-reason">Speaking engagement <span>Speaking</span></div>
+          <div class="contact-reason">Press &amp; media <span>Press</span></div>
+          <div class="contact-reason">General inquiry <span>General</span></div>
+        </div>
+      </div>
+
+      <form class="cf" id="contact-form">
+        <div class="cf-row">
+          <div class="cf-field">
+            <label for="cf-name">Name</label>
+            <input type="text" id="cf-name" name="name" required placeholder="Your name">
+          </div>
+          <div class="cf-field">
+            <label for="cf-email">Email</label>
+            <input type="email" id="cf-email" name="email" required placeholder="you@company.com">
+          </div>
+        </div>
+        <div class="cf-field">
+          <label for="cf-company">Company / Organization</label>
+          <input type="text" id="cf-company" name="company" placeholder="Optional">
+        </div>
+        <div class="cf-field">
+          <label for="cf-subject">Reason for reaching out</label>
+          <select id="cf-subject" name="subject" required>
+            <option value="" disabled selected>Select one</option>
+            <option value="Guest pitch">Guest pitch</option>
+            <option value="Sponsorship">Sponsorship &amp; advertising</option>
+            <option value="Speaking">Speaking engagement</option>
+            <option value="Press">Press &amp; media</option>
+            <option value="General">General inquiry</option>
+          </select>
+        </div>
+        <div class="cf-field">
+          <label for="cf-message">Message</label>
+          <textarea id="cf-message" name="message" required placeholder="Tell us what's on your mind"></textarea>
+        </div>
+        <div class="cf-submit">
+          <div>
+            <button type="submit" class="btn btn-primary" id="cf-btn">Send message <span class="arr">→</span></button>
+            <div id="cf-status"></div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ NEWSLETTER ══════════════════════════════════════════════ -->
+<section class="nl" id="newsletter">
+  <div class="wrap nl-inner">
+    <div>
+      <span class="label inv">05 · The Dispatch</span>
+      <h2>Get the weekly brief<br><em>before it hits LinkedIn.</em></h2>
+      <p>One short email every Tuesday: the episode, the quote, and the signals that actually matter in the business of healthcare.</p>
+    </div>
+    <form class="nl-form" onsubmit="event.preventDefault();this.querySelector('button').textContent='Subscribed ✓'">
+      <div class="nl-field">
+        <input type="email" required placeholder="you@company.com">
+        <button type="submit">Join →</button>
+      </div>
+      <span class="nl-fine">No spam · Unsubscribe anytime · 7,000+ subscribers</span>
+    </form>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ══════════════════════════════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="label">Boombostic Health Podcast</span>
+        <h3>The business of healthcare, <em>unfiltered.</em></h3>
+        <p>New episode every Tuesday, wherever you listen.</p>
+      </div>
+      <div class="fcol">
+        <h5>Show</h5>
+        <a href="#episodes">Episodes</a>
+        <a href="#about">About Brad</a>
+        <a href="#ecosystem">Ecosystem</a>
+        <a href="#press">Press</a>
+      </div>
+      <div class="fcol">
+        <h5>Connect</h5>
+        <a href="#contact">Pitch a guest</a>
+        <a href="#contact">Sponsor inquiries</a>
+        <a href="#contact">Speaking</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="fcol">
+        <h5>Listen on</h5>
+        <a href="https://podcasts.apple.com/us/podcast/boombostic-health/id1789975476">Apple Podcasts</a>
+        <a href="https://open.spotify.com/show/6aHEWZVVJ3oYTPh8j8Ygxd">Spotify</a>
+        <a href="https://www.youtube.com/@BoombosticHealth">YouTube</a>
+        <a href="https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7259254152554250241">LinkedIn</a>
+      </div>
+    </div>
+    <div class="foot-btm">
+      <span>© 2025 Boombostic Health Podcast</span>
+      <span>Healing Healthcare™</span>
+      <span>Boombostic Health · All rights reserved</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const EPS = [
+  { n:56, id:"j_Lp-hErf2k", title:"Beat Pancreatic Cancer Before It Strikes",               guest:"Diana Caldwell",    role:"CEO, Amplified Sciences",      tag:"Diagnostics",    dur:"37 min" },
+  { n:55, id:"ajNqrOlfGFo", title:"Your Doctor Can't Access Your Records — Here's Why",       guest:"Bob Watson",        role:"CEO, Health Gorilla",          tag:"Interoperability",dur:"13 min" },
+  { n:54, id:"rQD9dmkZcg4", title:"The Shift Happening in Healthcare Right Now",               guest:"Eric Strafel",      role:"CEO, Molecular Testing Labs",  tag:"Diagnostics",    dur:"14 min" },
+  { n:53, id:"lBCiY7FxEY0", title:"The Gap Between Cancer Screening Access and Reality",       guest:"Jay Sitgreaves",    role:"New Day Diagnostics",          tag:"Screening",      dur:"14 min" },
+  { n:52, id:"Ifa9cZQwYX4", title:"This Partnership Just Changed Medication Affordability",    guest:"Dr. Sheena Menezes",role:"Simple Health Kit",            tag:"Access",         dur:"7 min"  },
+  { n:51, id:"KetVaTJnUec", title:"80% of Healthcare Data Is Locked Away — AI Is Breaking It", guest:"Dr. Tim O'Connell", role:"Emtelligent",                  tag:"AI & Data",      dur:"12 min" },
+  { n:50, id:"GPxRfU3yTpQ", title:"Beyond AI Hype: What's Real in Healthcare Now",            guest:"Dr. Luke Hansen",   role:"Arcadia",                      tag:"AI & Data",      dur:"13 min" },
+  { n:49, id:"YaJSZxrXRDw", title:"The Real Reason Patients Wait: Healthcare's Ops Failure",   guest:"Dr. David Atashroo",role:"Qventus",                      tag:"Operations",     dur:"17 min" },
+  { n:48, id:"FKV4nxRe_kI", title:"2 Million Patients, 320,000 Square Miles: How Sanford Did It",guest:"Dave Newman & Brad Reimer",role:"Sanford Health",   tag:"Health Systems",  dur:"20 min" },
+  { n:47, id:"v_hjdgJ_82M", title:"AI, Outcomes, and the Future of Care",                      guest:"Aneesh Chopra",     role:"Former US CTO",                tag:"Policy",         dur:"17 min" },
+  { n:46, id:"j_Fsuy-BfTM", title:"The $1 Trillion Problem Nobody Talks About in Healthcare",  guest:"Fawad Butt",        role:"CEO, Penguin AI",              tag:"AI & Data",      dur:"14 min" },
+  { n:45, id:"vYvWWQwk95c", title:"When Every Newborn Gets a Genomic Passport",                guest:"Gene by Gene Leadership",role:"",                        tag:"Genomics",       dur:"18 min" },
+];
+
+// ── Contact form (Formspree) ──────────────────────────────────
+// Replace YOUR_FORM_ID with your ID from formspree.io/new
+const FORMSPREE_ID = 'mlgaojjj';
+
+document.getElementById('contact-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn    = document.getElementById('cf-btn');
+  const status = document.getElementById('cf-status');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+  status.className = '';
+  try {
+    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(this)
+    });
+    if (res.ok) {
+      status.textContent = 'Message sent. We\'ll be in touch.';
+      status.className = 'ok';
+      this.reset();
+      btn.textContent = 'Send message →';
+    } else {
+      throw new Error();
+    }
+  } catch {
+    status.textContent = 'Something went wrong. Try emailing directly.';
+    status.className = 'err';
+    btn.textContent = 'Send message →';
+  }
+  btn.disabled = false;
+});
+
+// ── Episodes ─────────────────────────────────────────────────
+document.getElementById('ep-list').innerHTML = EPS.map(e => `
+  <div class="ep-row" onclick="window.open('https://www.youtube.com/watch?v=${e.id}','_blank')">
+    <div class="ep-num">EP ${String(e.n).padStart(3,'0')}</div>
+    <div class="ep-thumb">
+      <img src="https://i.ytimg.com/vi/${e.id}/mqdefault.jpg" alt="" loading="lazy">
+    </div>
+    <div class="ep-title">${e.title}</div>
+    <div class="ep-guest"><b>${e.guest}</b>${e.role ? '<br>' + e.role : ''}</div>
+    <div class="ep-meta">${e.tag}<br>${e.dur}</div>
+    <div class="ep-play">
+      <svg viewBox="0 0 12 12" width="10" height="10" fill="currentColor"><path d="M3 2l7 4-7 4z"/></svg>
+    </div>
+  </div>
+`).join('');
+</script>
+</body>
+</html>

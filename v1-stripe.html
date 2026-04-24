@@ -1,0 +1,952 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Boombostic Health — The Business of Healthcare is Broken</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link id="font-sans" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link id="font-serif" rel="stylesheet" href="">
+<style>
+  /* ---------- tokens ---------- */
+  :root{
+    --accent: #1f6feb;
+    --accent-ink: #0b3a99;
+    --ink: #0a0b0d;
+    --ink-2: #1a1c21;
+    --muted: #60646c;
+    --muted-2: #9aa0a8;
+    --line: rgba(10,11,13,.08);
+    --line-2: rgba(10,11,13,.14);
+    --bg: #fbfbfa;
+    --bg-2: #f3f3f1;
+    --bg-3: #eeeeeb;
+    --ink-inv: #f5f5f2;
+    --bg-dark: #0a0b0d;
+    --bg-dark-2: #111317;
+    --line-dark: rgba(255,255,255,.08);
+    --line-dark-2: rgba(255,255,255,.14);
+
+    --font-sans: 'Inter Tight', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --font-display: 'Inter Tight', system-ui, sans-serif;
+
+    --maxw: 1200px;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family: var(--font-sans);
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01","cv11";
+  }
+  a{ color: inherit; text-decoration: none; }
+  .mono{ font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .02em; text-transform: uppercase; }
+  .wrap{ max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+  .eyebrow{
+    font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--muted);
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .eyebrow::before{
+    content: ""; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 18%, transparent);
+  }
+  .rule{ height:1px; background: var(--line); width: 100%; }
+
+  /* ---------- nav ---------- */
+  .nav{
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: saturate(140%) blur(14px);
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner{
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px; font-weight:600; letter-spacing:-.01em;
+  }
+  .brand .dot{
+    width:22px; height:22px; border-radius:6px; background: var(--ink);
+    display:grid; place-items:center; color: var(--bg); font-family:var(--font-mono); font-size:11px;
+    position: relative; overflow: hidden;
+  }
+  .brand .dot::after{
+    content:""; position:absolute; inset:auto -40% -40% auto; width:80%; height:80%;
+    background: var(--accent); border-radius: 50%; filter: blur(6px); opacity:.9;
+  }
+  .brand .name{ font-size: 15px; }
+  .brand .name em{ font-style: normal; color: var(--muted); font-weight: 400; margin-left:6px;}
+  .nav-links{ display:flex; gap: 28px; align-items: center; }
+  .nav-links a{ font-size: 14px; color: var(--ink-2); opacity:.82; }
+  .nav-links a:hover{ opacity: 1; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; height:36px; padding: 0 14px;
+    border-radius: 8px; font-size: 13.5px; font-weight: 500; letter-spacing: -.005em;
+    border: 1px solid var(--line-2); background: transparent; color: var(--ink);
+    transition: all .2s ease; cursor:pointer;
+  }
+  .btn:hover{ background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .btn.primary{
+    background: var(--ink); color: var(--bg); border-color: var(--ink);
+  }
+  .btn.primary:hover{ background: var(--ink-2); }
+  .btn.accent{
+    background: var(--accent); color: white; border-color: var(--accent);
+  }
+  .btn.accent:hover{ filter: brightness(1.08); }
+  .btn .arr{ transition: transform .2s; }
+  .btn:hover .arr{ transform: translateX(2px); }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position: relative; overflow: hidden;
+    padding: 84px 0 110px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-bg{
+    position:absolute; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(1200px 500px at 85% -10%, color-mix(in oklab, var(--accent) 22%, transparent), transparent 60%),
+      radial-gradient(900px 400px at -10% 20%, color-mix(in oklab, var(--accent) 14%, transparent), transparent 55%),
+      linear-gradient(180deg, transparent 60%, var(--bg-2) 100%);
+  }
+  .hero-grid{
+    position:absolute; inset:0; z-index:0; pointer-events:none; opacity:.35;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(80% 60% at 50% 30%, #000 50%, transparent 100%);
+  }
+  .hero-inner{ position:relative; z-index:1; }
+  .hero-tag{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: .04em;
+    padding: 6px 10px 6px 8px; border:1px solid var(--line-2); border-radius: 999px;
+    background: color-mix(in srgb, var(--bg) 70%, transparent);
+    color: var(--ink-2);
+  }
+  .hero-tag .pill{
+    background: var(--ink); color: var(--bg); border-radius:999px; padding: 2px 8px; font-size: 10.5px;
+  }
+  h1.hero-h{
+    font-family: var(--font-display);
+    font-size: clamp(48px, 7.2vw, 104px);
+    line-height: .96; letter-spacing: -.035em; font-weight: 500;
+    margin: 22px 0 0; max-width: 16ch;
+  }
+  h1.hero-h em{ font-style: normal; color: var(--accent); font-weight: 500; }
+  h1.hero-h .strike{
+    position: relative; display: inline-block; color: var(--muted);
+  }
+  h1.hero-h .strike::after{
+    content:""; position:absolute; left:-2%; right:-2%; top:52%;
+    height: .08em; background: var(--ink); border-radius: 2px;
+    transform: rotate(-3deg);
+  }
+  .hero-sub{
+    margin-top: 28px; max-width: 60ch; font-size: 18px; line-height: 1.55;
+    color: var(--muted);
+  }
+  .hero-cta{ margin-top: 36px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;}
+  .hero-meta{
+    display:grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    margin-top: 80px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .hero-meta > div{
+    padding: 22px 22px 22px 0;
+    border-right: 1px solid var(--line);
+  }
+  .hero-meta > div:last-child{ border-right: none; padding-right: 0; }
+  .hero-meta .k{ font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em;}
+  .hero-meta .v{ margin-top: 8px; font-size: 22px; letter-spacing: -.02em; font-weight: 500;}
+
+  /* ---------- listen strip ---------- */
+  .listen{
+    background: var(--ink);
+    color: var(--ink-inv);
+    border-bottom: 1px solid var(--ink);
+  }
+  .listen-inner{
+    display:flex; align-items:center; justify-content:space-between; gap: 32px;
+    padding: 22px 0;
+  }
+  .listen-label{
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em;
+    text-transform: uppercase; color: color-mix(in srgb, var(--ink-inv) 62%, transparent);
+    display:flex; align-items:center; gap:12px;
+  }
+  .listen-label .live{
+    width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 80%, transparent);
+    animation: pulse 1.8s infinite;
+  }
+  @keyframes pulse{
+    0%{ box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 70%, transparent);}
+    70%{ box-shadow: 0 0 0 10px transparent;}
+    100%{ box-shadow: 0 0 0 0 transparent;}
+  }
+  .listen-row{ display:flex; gap: 10px; flex-wrap: wrap;}
+  .lchip{
+    display:inline-flex; align-items:center; gap:10px;
+    padding: 8px 14px; border:1px solid rgba(255,255,255,.12);
+    border-radius: 8px; font-size: 13.5px; color: var(--ink-inv);
+    background: rgba(255,255,255,.02);
+    transition: all .2s;
+  }
+  .lchip:hover{ background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.25);}
+  .lchip .mk{ font-family: var(--font-mono); font-size: 10.5px; color: color-mix(in srgb, var(--ink-inv) 55%, transparent); }
+  .lchip svg{ width:14px; height:14px; opacity:.9;}
+
+  /* ---------- section skeleton ---------- */
+  section.block{ padding: 100px 0; border-bottom: 1px solid var(--line); }
+  section.dark{ background: var(--bg-dark); color: var(--ink-inv); border-color: var(--line-dark);}
+  section.dark .eyebrow{ color: color-mix(in srgb, var(--ink-inv) 55%, transparent);}
+  section.dark .rule{ background: var(--line-dark);}
+  .sec-head{
+    display:grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: start;
+    margin-bottom: 56px;
+  }
+  .sec-head h2{
+    font-family: var(--font-display); font-size: clamp(32px, 4vw, 52px); line-height: 1.02; letter-spacing: -.03em;
+    margin: 14px 0 0; font-weight: 500; max-width: 18ch;
+  }
+  .sec-head .lede{ font-size: 17px; line-height: 1.55; color: var(--muted); max-width: 62ch; }
+  section.dark .sec-head .lede{ color: color-mix(in srgb, var(--ink-inv) 62%, transparent); }
+
+  /* ---------- manifesto ---------- */
+  .manifesto{ background: var(--bg-dark); color: var(--ink-inv); }
+  .manifesto .sec-head h2{ max-width: 20ch; }
+  .manifesto-grid{ display:grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
+  .manifest-card{
+    grid-column: span 4;
+    border: 1px solid var(--line-dark);
+    padding: 28px;
+    background: linear-gradient(180deg, rgba(255,255,255,.02), transparent);
+    position: relative; overflow:hidden;
+  }
+  .manifest-card .n{
+    font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase;
+    color: color-mix(in srgb, var(--ink-inv) 45%, transparent);
+  }
+  .manifest-card h3{
+    font-size: 22px; line-height: 1.2; font-weight: 500; letter-spacing: -.015em;
+    margin: 18px 0 10px;
+  }
+  .manifest-card p{
+    color: color-mix(in srgb, var(--ink-inv) 65%, transparent);
+    font-size: 14.5px; line-height: 1.55; margin: 0;
+  }
+  .manifest-card .corner{
+    position:absolute; top: 14px; right: 14px; width: 8px; height: 8px;
+    border-top: 1px solid color-mix(in srgb, var(--ink-inv) 40%, transparent);
+    border-right: 1px solid color-mix(in srgb, var(--ink-inv) 40%, transparent);
+  }
+  .manifest-quote{
+    grid-column: span 12; padding: 52px 0 0; border-top: 1px dashed var(--line-dark);
+    margin-top: 16px;
+  }
+  .manifest-quote q{
+    display:block; font-family: var(--font-display); font-size: clamp(28px, 3.6vw, 44px);
+    line-height: 1.15; letter-spacing: -.02em; font-weight: 400; max-width: 24ch;
+  }
+  .manifest-quote q::before, .manifest-quote q::after{ color: var(--accent); }
+
+  /* ---------- episodes ---------- */
+  .eps{ }
+  .ep-filter{
+    display:flex; gap: 6px; margin-bottom: 28px;
+  }
+  .ep-filter .f{
+    font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase;
+    padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; color: var(--muted);
+    background: transparent; cursor: pointer;
+  }
+  .ep-filter .f.on{ color: var(--ink); border-color: var(--line-2); background: var(--bg-2); }
+  .ep-list{ border-top: 1px solid var(--line); }
+  .ep{
+    display:grid; grid-template-columns: 80px 1fr 2fr 160px 120px; gap: 24px;
+    align-items:center; padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+    transition: background .2s;
+    cursor: pointer;
+  }
+  .ep:hover{ background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--accent) 5%, transparent), transparent); }
+  .ep:hover .ep-title{ color: var(--accent-ink); }
+  .ep .ep-num{ font-family: var(--font-mono); font-size: 12px; color: var(--muted);}
+  .ep .ep-title{ font-size: 18px; font-weight: 500; letter-spacing: -.015em; transition: color .2s;}
+  .ep .ep-guest{ color: var(--muted); font-size: 14.5px; }
+  .ep .ep-guest .tag{
+    display:inline-block; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .06em;
+    text-transform: uppercase; padding: 3px 7px; border: 1px solid var(--line-2); border-radius: 4px;
+    margin-right: 8px; color: var(--ink-2); background: var(--bg-2);
+  }
+  .ep .ep-dur{ font-family: var(--font-mono); font-size: 12.5px; color: var(--muted);}
+  .ep .ep-play{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size: 13px; color: var(--ink); justify-self: end;
+  }
+  .ep .ep-play .pb{
+    width: 30px; height: 30px; border-radius: 50%; background: var(--bg-2);
+    border: 1px solid var(--line-2); display:grid; place-items:center;
+    transition: all .2s;
+  }
+  .ep:hover .ep-play .pb{ background: var(--ink); color: var(--bg); border-color: var(--ink);}
+
+  /* ---------- news ---------- */
+  .news{ background: var(--bg-2); }
+  .news-grid{
+    display:grid; grid-template-columns: repeat(12, 1fr); gap: 24px;
+  }
+  .news-card{
+    grid-column: span 6;
+    background: var(--bg); border: 1px solid var(--line);
+    padding: 28px; display:flex; flex-direction: column; gap: 18px;
+    position: relative; transition: all .2s; min-height: 260px;
+  }
+  .news-card:hover{ border-color: var(--line-2); transform: translateY(-2px); box-shadow: 0 12px 32px -18px rgba(10,11,13,.18);}
+  .news-card.lg{ grid-column: span 12; background: var(--ink); color: var(--ink-inv); border-color: var(--ink); min-height: 220px;}
+  .news-card.lg .source{ color: color-mix(in srgb, var(--ink-inv) 55%, transparent); }
+  .news-card.lg p{ color: color-mix(in srgb, var(--ink-inv) 72%, transparent); }
+  .news-card.sm{ grid-column: span 4; min-height: 220px;}
+  .news-card .source{
+    font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
+    display:flex; justify-content: space-between; align-items:center;
+  }
+  .news-card h4{
+    font-size: 22px; line-height: 1.2; letter-spacing: -.015em; font-weight: 500; margin: 0;
+    max-width: 28ch;
+  }
+  .news-card.lg h4{ font-size: 28px; max-width: 22ch;}
+  .news-card p{ margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--muted); }
+  .news-card .foot{ margin-top: auto; display:flex; justify-content: space-between; align-items:center; color: var(--muted); font-size: 13px;}
+  .news-card .foot .arrow{ transition: transform .2s;}
+  .news-card:hover .foot .arrow{ transform: translateX(3px); }
+
+  /* ---------- guests ---------- */
+  .guests{ }
+  .guest-marquee{
+    display:grid; grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .g{
+    padding: 28px 20px; border-right: 1px solid var(--line);
+    display:flex; flex-direction: column; gap: 8px;
+    transition: background .2s;
+  }
+  .g:hover{ background: var(--bg-2);}
+  .g:nth-child(6n){ border-right: none; }
+  .g:nth-child(n+7){ border-top: 1px solid var(--line);}
+  .g .g-name{ font-size: 15px; font-weight: 500; letter-spacing: -.01em;}
+  .g .g-role{ font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted);}
+
+  /* ---------- about ---------- */
+  .about{ }
+  .about-grid{ display:grid; grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: start;}
+  .about-portrait{
+    aspect-ratio: 4/5; width: 100%;
+    background:
+      repeating-linear-gradient(135deg, rgba(10,11,13,.04) 0 2px, transparent 2px 14px),
+      linear-gradient(180deg, var(--bg-2), var(--bg-3));
+    border: 1px solid var(--line);
+    position: relative;
+    display:flex; align-items:flex-end; justify-content: space-between;
+    padding: 22px;
+  }
+  .about-portrait .tl{
+    position: absolute; top: 22px; left: 22px;
+    font-family: var(--font-mono); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em;
+  }
+  .about-portrait .br{
+    font-family: var(--font-mono); font-size: 11px; color: var(--muted);
+  }
+  .about-portrait .glyph{
+    position: absolute; inset: 0; display:grid; place-items:center;
+    font-family: var(--font-display); font-size: clamp(120px, 20vw, 220px);
+    letter-spacing: -.04em; color: rgba(10,11,13,.08); font-weight: 500;
+  }
+  .about-body h3{ font-size: 30px; letter-spacing: -.02em; margin: 0 0 18px; font-weight: 500; max-width: 16ch;}
+  .about-body p{ font-size: 16px; line-height: 1.6; color: var(--muted); margin: 0 0 14px;}
+  .bio-list{
+    margin-top: 28px; display:grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .bio-list > div{
+    padding: 16px 0; border-bottom: 1px solid var(--line);
+    display:grid; grid-template-columns: 120px 1fr; gap: 12px; align-items: baseline;
+  }
+  .bio-list .k{ font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted);}
+  .bio-list .v{ font-size: 15px;}
+
+  /* ---------- newsletter ---------- */
+  .nl{
+    background: var(--bg-dark); color: var(--ink-inv); position: relative; overflow: hidden;
+  }
+  .nl::before{
+    content:""; position:absolute; inset:0;
+    background:
+      radial-gradient(700px 300px at 20% 0%, color-mix(in oklab, var(--accent) 28%, transparent), transparent 60%),
+      radial-gradient(500px 200px at 100% 100%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 60%);
+    opacity: .8;
+  }
+  .nl-inner{
+    position: relative; z-index:1;
+    display:grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: center;
+    padding: 96px 0;
+  }
+  .nl h2{ font-family: var(--font-display); font-size: clamp(36px, 4.5vw, 60px); letter-spacing: -.03em; font-weight: 500; margin:0; line-height: 1.02;}
+  .nl p{ color: color-mix(in srgb, var(--ink-inv) 65%, transparent); margin: 18px 0 0; font-size: 17px; line-height: 1.5; max-width: 44ch;}
+  .nl-form{
+    display:flex; flex-direction: column; gap: 10px;
+  }
+  .nl-form .field{
+    display:flex; gap: 0; border:1px solid var(--line-dark-2); border-radius: 10px; overflow: hidden; background: rgba(255,255,255,.03);
+    transition: border-color .2s;
+  }
+  .nl-form .field:focus-within{ border-color: var(--accent); }
+  .nl-form input{
+    flex:1; padding: 14px 16px; background: transparent; border: none; color: var(--ink-inv);
+    font: inherit; font-size: 15px; outline: none;
+  }
+  .nl-form input::placeholder{ color: color-mix(in srgb, var(--ink-inv) 45%, transparent);}
+  .nl-form button{
+    border: none; padding: 0 22px; background: var(--accent); color: #fff;
+    font: inherit; font-size: 14px; font-weight: 500; cursor: pointer; letter-spacing: -.005em;
+    transition: filter .2s;
+  }
+  .nl-form button:hover{ filter: brightness(1.1); }
+  .nl-form .fine{ font-family: var(--font-mono); font-size: 10.5px; color: color-mix(in srgb, var(--ink-inv) 45%, transparent); letter-spacing: .06em; text-transform: uppercase; }
+
+  /* ---------- footer ---------- */
+  footer{
+    background: var(--bg-2);
+    padding: 72px 0 40px;
+  }
+  .foot-grid{
+    display:grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 64px;
+  }
+  .foot-brand h3{ font-family: var(--font-display); font-size: 40px; letter-spacing: -.03em; font-weight: 500; margin: 12px 0 0;}
+  .foot-brand p{ color: var(--muted); max-width: 36ch; margin: 14px 0 0; font-size: 14px; line-height: 1.5;}
+  .fcol h5{ font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 16px;}
+  .fcol a{ display:block; padding: 6px 0; font-size: 14.5px; color: var(--ink-2); }
+  .fcol a:hover{ color: var(--accent-ink); }
+  .foot-btm{
+    display:flex; justify-content: space-between; align-items: center;
+    padding-top: 28px; border-top: 1px solid var(--line);
+    font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: .05em; text-transform: uppercase;
+  }
+  .foot-btm .dots{ display:flex; gap: 6px;}
+  .foot-btm .dots i{ width:6px; height:6px; border-radius:50%; background: var(--line-2); display:inline-block;}
+  .foot-btm .dots i:first-child{ background: var(--accent);}
+
+  /* ---------- tweaks panel ---------- */
+  .tweaks{
+    position: fixed; right: 20px; bottom: 20px; z-index: 100;
+    background: var(--ink); color: var(--ink-inv);
+    border-radius: 12px; padding: 16px; width: 280px;
+    box-shadow: 0 24px 60px -16px rgba(0,0,0,.35);
+    display: none; font-size: 13px;
+    border: 1px solid rgba(255,255,255,.1);
+  }
+  .tweaks.show{ display:block;}
+  .tweaks h6{
+    font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .08em;
+    color: color-mix(in srgb, var(--ink-inv) 55%, transparent);
+    margin: 0 0 10px;
+  }
+  .tweaks .row{ display:flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px;}
+  .tweaks .sw{
+    width: 28px; height: 28px; border-radius: 6px; border: 1px solid rgba(255,255,255,.12); cursor:pointer;
+    display:grid; place-items:center;
+  }
+  .tweaks .sw.on{ border-color: white; }
+  .tweaks .opt{
+    flex:1; min-width: calc(50% - 3px);
+    border: 1px solid rgba(255,255,255,.12); background: transparent; color: var(--ink-inv);
+    padding: 8px 10px; border-radius: 6px; cursor: pointer; font: inherit; font-size: 12px;
+    text-align: left;
+  }
+  .tweaks .opt.on{ background: rgba(255,255,255,.08); border-color: white; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 960px){
+    .sec-head{ grid-template-columns: 1fr; gap: 20px; margin-bottom: 36px;}
+    .manifest-card{ grid-column: span 12;}
+    .ep{ grid-template-columns: 50px 1fr 80px; }
+    .ep .ep-guest, .ep .ep-play{ display:none;}
+    .news-card, .news-card.sm, .news-card.lg{ grid-column: span 12;}
+    .guest-marquee{ grid-template-columns: repeat(2, 1fr);}
+    .g{ border-right: 1px solid var(--line); }
+    .g:nth-child(2n){ border-right: none; }
+    .g:nth-child(n+3){ border-top: 1px solid var(--line);}
+    .about-grid{ grid-template-columns: 1fr;}
+    .nl-inner{ grid-template-columns: 1fr; gap: 28px; padding: 72px 0;}
+    .foot-grid{ grid-template-columns: 1fr 1fr; gap: 32px;}
+    .hero-meta{ grid-template-columns: 1fr 1fr;}
+    .hero-meta > div:nth-child(2){ border-right: none;}
+    .hero-meta > div:nth-child(-n+2){ border-bottom: 1px solid var(--line);}
+    .nav-links a:not(:last-child){ display:none;}
+  }
+</style>
+</head>
+<body>
+<script>
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "accent": "#1f6feb",
+    "font": "inter"
+  }/*EDITMODE-END*/;
+</script>
+
+<!-- ============== NAV ============== -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#">
+      <span class="dot">B</span>
+      <span class="name">Boombostic Health <em>// podcast</em></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#episodes">Episodes</a>
+      <a href="#manifesto">Mission</a>
+      <a href="#news">Press</a>
+      <a href="#about">Brad</a>
+      <a class="btn" href="#newsletter">Subscribe <span class="arr">→</span></a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============== HERO ============== -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-bg"></div>
+  <div class="wrap hero-inner">
+    <div class="hero-tag">
+      <span class="pill">S1</span>
+      <span>New episode every Tuesday · recorded live from HLTH 2025</span>
+    </div>
+
+    <h1 class="hero-h">
+      The business of healthcare is <span class="strike">broken</span>.<br>
+      We're on a mission to <em>fix&nbsp;it</em>.
+    </h1>
+
+    <p class="hero-sub">
+      Unfiltered conversations with the operators, founders, and investors rewriting the rules of American healthcare — hosted by serial entrepreneur and healthtech CEO <strong style="color:var(--ink);font-weight:500">Bradley Bostic</strong>.
+    </p>
+
+    <div class="hero-cta">
+      <a href="#episodes" class="btn accent">Listen to the latest <span class="arr">→</span></a>
+      <a href="#manifesto" class="btn">Read the manifesto</a>
+      <span class="mono" style="color:var(--muted); margin-left:6px;">↳ 42 episodes · 18 hrs</span>
+    </div>
+
+    <div class="hero-meta">
+      <div>
+        <div class="k">Series</div>
+        <div class="v">Business of Healthcare</div>
+      </div>
+      <div>
+        <div class="k">Host</div>
+        <div class="v">Bradley Bostic</div>
+      </div>
+      <div>
+        <div class="k">Cadence</div>
+        <div class="v">Weekly · Tuesdays</div>
+      </div>
+      <div>
+        <div class="k">Format</div>
+        <div class="v">45 min · Audio + Video</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== LISTEN STRIP ============== -->
+<section class="listen">
+  <div class="wrap listen-inner">
+    <div class="listen-label"><span class="live"></span> Listen where you already are</div>
+    <div class="listen-row">
+      <a class="lchip" href="#">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm4.5 14.5c-.2.3-.6.4-.9.2-2.4-1.5-5.4-1.8-9-1-.3.1-.7-.1-.8-.5-.1-.3.1-.7.5-.8 3.9-.9 7.2-.5 9.9 1.2.3.2.4.6.3.9Zm1.2-2.7c-.3.4-.8.5-1.2.2-2.7-1.7-6.9-2.2-10.1-1.2-.4.1-.9-.1-1-.6-.1-.4.1-.9.6-1 3.7-1.1 8.3-.5 11.5 1.4.3.3.4.8.2 1.2Zm.1-2.8C14.6 9 9.4 8.8 6.4 9.7c-.5.1-1-.2-1.1-.7-.1-.5.2-1 .7-1.1 3.5-1.1 9.2-.9 12.7 1.2.4.3.6.9.3 1.3-.3.4-.9.6-1.3.3Z"/></svg>
+        <span>Spotify</span><span class="mk">OPEN →</span>
+      </a>
+      <a class="lchip" href="#">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm-.6 16.4c-1.2 0-2.2-.1-2.6-.3-.2-.1-.2-.3-.2-.5l.1-4c0-.2.2-.3.4-.3h4.7c.2 0 .4.1.4.3l.1 4c0 .2-.1.4-.2.5-.4.2-1.4.3-2.7.3ZM14 9.5c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2Z"/></svg>
+        <span>Apple Podcasts</span><span class="mk">OPEN →</span>
+      </a>
+      <a class="lchip" href="#">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7a2.6 2.6 0 0 0-1.8-1.8C19.2 5 12 5 12 5s-7.2 0-8.8.5A2.6 2.6 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.6 2.6 0 0 0 1.8 1.8c1.6.5 8.8.5 8.8.5s7.2 0 8.8-.5a2.6 2.6 0 0 0 1.8-1.8C23 15.2 23 12 23 12ZM9.8 15.3v-6.6L15.5 12Z"/></svg>
+        <span>YouTube</span><span class="mk">OPEN →</span>
+      </a>
+      <a class="lchip" href="#">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5h-17A1.5 1.5 0 0 0 2 5v14a1.5 1.5 0 0 0 1.5 1.5h17A1.5 1.5 0 0 0 22 19V5a1.5 1.5 0 0 0-1.5-1.5ZM8.3 18H5.7V9.7h2.6Zm-1.3-9.5a1.5 1.5 0 1 1 1.5-1.5 1.5 1.5 0 0 1-1.5 1.5ZM18.3 18h-2.6v-4c0-1-.4-1.7-1.3-1.7a1.4 1.4 0 0 0-1.3.9 1.7 1.7 0 0 0-.1.6V18h-2.6V9.7H13v1.1a2.6 2.6 0 0 1 2.4-1.3c1.7 0 3 1.1 3 3.5Z"/></svg>
+        <span>LinkedIn</span><span class="mk">OPEN →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== MANIFESTO ============== -->
+<section class="block manifesto" id="manifesto">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">01 — Manifesto</span>
+        <h2>We don't just talk about change. We make it happen.</h2>
+      </div>
+      <p class="lede">
+        Skyrocketing costs. Clinician burnout. Patient confusion. A reactive system that emphasizes complexity over prevention. The Boombostic Health podcast is a movement for people who know healthcare can — and must — do better.
+      </p>
+    </div>
+
+    <div class="manifesto-grid">
+      <div class="manifest-card">
+        <span class="corner"></span>
+        <div class="n">01 / Costs</div>
+        <h3>Price opacity is a choice, not a physics problem.</h3>
+        <p>We pressure-test the business models that profit from complexity — and spotlight the operators replacing them with something honest.</p>
+      </div>
+      <div class="manifest-card">
+        <span class="corner"></span>
+        <div class="n">02 / Burnout</div>
+        <h3>Clinicians shouldn't subsidize a broken workflow with their sanity.</h3>
+        <p>AI, ambient capture, and rebuilt care teams are already giving hours back. We talk to the people shipping it at scale.</p>
+      </div>
+      <div class="manifest-card">
+        <span class="corner"></span>
+        <div class="n">03 / Outcomes</div>
+        <h3>Reactive care is a failure of imagination.</h3>
+        <p>Prevention is not a wellness slogan — it's the P&amp;L. Hear from the founders turning predictive data into paid interventions.</p>
+      </div>
+
+      <div class="manifest-quote">
+        <q>If you fear change and are looking for safe, surface-level conversations — this isn't for you. We're here to eliminate the status quo.</q>
+        <div style="margin-top:22px;" class="mono" >— Bradley Bostic · Host &amp; Founder</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== EPISODES ============== -->
+<section class="block eps" id="episodes">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">02 — Episodes</span>
+        <h2>Latest conversations.</h2>
+      </div>
+      <p class="lede">
+        A running log of on-the-record conversations with the executives, founders, investors, and frontline operators rewriting the rules in real time. Pick a topic or start from the top.
+      </p>
+    </div>
+
+    <div class="ep-filter">
+      <button class="f on">All</button>
+      <button class="f">AI &amp; Data</button>
+      <button class="f">Payers</button>
+      <button class="f">Providers</button>
+      <button class="f">Founders</button>
+      <button class="f">Policy</button>
+    </div>
+
+    <div class="ep-list" id="ep-list"></div>
+
+    <div style="margin-top: 28px; display:flex; justify-content: space-between; align-items:center;">
+      <span class="mono" style="color:var(--muted)">Showing 6 of 42 · Drop real data when you're ready</span>
+      <a href="#" class="btn">Browse all episodes <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== NEWS ============== -->
+<section class="block news" id="news">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">03 — Press &amp; Recognition</span>
+        <h2>News &amp; stories.</h2>
+      </div>
+      <p class="lede">A selection of where the work and the host have shown up lately — recognition, appearances, and the conversations that started elsewhere and continued on the show.</p>
+    </div>
+
+    <div class="news-grid">
+      <article class="news-card lg">
+        <div class="source"><span>Crain's Chicago Business</span><span>Notable · 2025</span></div>
+        <h4>Named among the Most Notable Leaders in Healthcare Technology</h4>
+        <p>Recognized among 27 executives, founders, and advisers driving innovation in AI, telehealth, clinical research, and data platforms transforming how hospitals, payers, and providers improve patient outcomes nationwide.</p>
+        <div class="foot"><span>Read the feature</span><span class="arrow">→</span></div>
+      </article>
+
+      <article class="news-card">
+        <div class="source"><span>HLTH 2025</span><span>Event</span></div>
+        <h4>Featured podcaster — Las Vegas, October</h4>
+        <p>Boombostic Health is recording top leaders and innovators live on the floor at HLTH 2025.</p>
+        <div class="foot"><span>See the lineup</span><span class="arrow">→</span></div>
+      </article>
+
+      <article class="news-card">
+        <div class="source"><span>Indianapolis Business Journal</span><span>Top 250 · 2025</span></div>
+        <h4>IBJ Top 250 honoree</h4>
+        <p>A curated list of Indiana's most influential leaders driving impact across business, philanthropy, government, arts, and nonprofits.</p>
+        <div class="foot"><span>View edition</span><span class="arrow">→</span></div>
+      </article>
+
+      <article class="news-card sm">
+        <div class="source"><span>Slice of Healthcare</span><span>Award</span></div>
+        <h4>Top Digital Health Leaders — 2025</h4>
+        <p>Public-selected list of 50 leaders defining the next chapter of digital health.</p>
+        <div class="foot"><span>See list</span><span class="arrow">→</span></div>
+      </article>
+
+      <article class="news-card sm">
+        <div class="source"><span>LinkedIn Newsletter</span><span>7.3k subscribers</span></div>
+        <h4>Weekly dispatches — straight to your inbox</h4>
+        <p>A short, sharp read on what moved in the business of healthcare this week.</p>
+        <div class="foot"><span>Subscribe</span><span class="arrow">→</span></div>
+      </article>
+
+      <article class="news-card sm">
+        <div class="source"><span>Guest Appearances</span><span>Podcasts</span></div>
+        <h4>On other shows</h4>
+        <p>Brad has joined leading healthcare, venture, and founder-focused programs as a guest.</p>
+        <div class="foot"><span>See all</span><span class="arrow">→</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============== GUESTS ============== -->
+<section class="block guests">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">04 — Featured Voices</span>
+        <h2>Operators, founders &amp; investors on the record.</h2>
+      </div>
+      <p class="lede">A representative sample from the guest bench — swap in real names, titles, and episode links when you have them. Hover to preview.</p>
+    </div>
+
+    <div class="guest-marquee" id="guest-grid"></div>
+  </div>
+</section>
+
+<!-- ============== ABOUT ============== -->
+<section class="block about" id="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">05 — Host</span>
+        <h2>About Bradley Bostic.</h2>
+      </div>
+      <p class="lede">Serial entrepreneur, investor, and healthtech CEO. Brad has spent two decades building, funding, and operating companies at the intersection of data, care delivery, and the American healthcare system.</p>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-portrait">
+        <div class="tl">Portrait · drop-in</div>
+        <div class="glyph">BB</div>
+        <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted);">BRADLEY · BOSTIC</div>
+        <div class="br">IMG / 4:5</div>
+      </div>
+
+      <div class="about-body">
+        <h3>Building the healthcare system we were promised.</h3>
+        <p>The Boombostic Health podcast is the strategic vision behind fundamental transformation — not theory, not surface-level conversation. Each week Brad sits down with the executives, founders, investors, operators, and frontline leaders rewriting the rules of healthcare in real time.</p>
+        <p>The bar is simple: bold, unfiltered conversations with the people crazy enough to believe they can change the world — and actually shipping the work to prove it.</p>
+
+        <div class="bio-list">
+          <div><span class="k">Role</span><span class="v">Host · Founder</span></div>
+          <div><span class="k">Day job</span><span class="v">CEO, Healthtech</span></div>
+          <div><span class="k">Based</span><span class="v">Indianapolis, IN</span></div>
+          <div><span class="k">Focus</span><span class="v">AI · Care models · Capital</span></div>
+          <div><span class="k">On LinkedIn</span><span class="v">/in/bradleybostic →</span></div>
+          <div><span class="k">Recognition</span><span class="v">Crain's · IBJ · Slice of Healthcare</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== NEWSLETTER ============== -->
+<section class="nl" id="newsletter">
+  <div class="wrap nl-inner">
+    <div>
+      <span class="eyebrow" style="color: color-mix(in srgb, var(--ink-inv) 55%, transparent)">06 — Dispatch</span>
+      <h2 style="margin-top: 14px;">Get the weekly brief before it hits LinkedIn.</h2>
+      <p>One short email every Tuesday: the episode, the quote, and the one chart that matters from the business of healthcare this week.</p>
+    </div>
+    <form class="nl-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Subscribed ✓'">
+      <div class="field">
+        <input type="email" required placeholder="you@company.com">
+        <button type="submit">Join →</button>
+      </div>
+      <span class="fine">No spam · Unsubscribe anytime · 7,300+ subscribers</span>
+    </form>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="mono" style="color:var(--muted)">Boombostic Health · Podcast</span>
+        <h3>Eliminate the status&nbsp;quo.</h3>
+        <p>A movement for people who know healthcare can — and must — do better. New episode every Tuesday, wherever you listen.</p>
+        <div style="display:flex; gap:10px; margin-top: 22px;">
+          <a class="btn" href="#">Apple</a>
+          <a class="btn" href="#">Spotify</a>
+          <a class="btn" href="#">YouTube</a>
+          <a class="btn" href="#">LinkedIn</a>
+        </div>
+      </div>
+      <div class="fcol">
+        <h5>Show</h5>
+        <a href="#episodes">Episodes</a>
+        <a href="#manifesto">Manifesto</a>
+        <a href="#about">About the host</a>
+        <a href="#">Press kit</a>
+      </div>
+      <div class="fcol">
+        <h5>Connect</h5>
+        <a href="#">Pitch a guest</a>
+        <a href="#">Sponsor inquiries</a>
+        <a href="#">Speaking</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="fcol">
+        <h5>Follow</h5>
+        <a href="#">LinkedIn</a>
+        <a href="#">Newsletter</a>
+        <a href="#">YouTube</a>
+        <a href="#">RSS feed</a>
+      </div>
+    </div>
+
+    <div class="foot-btm">
+      <span>© 2026 · Boombostic Health Podcast</span>
+      <span class="dots"><i></i><i></i><i></i><i></i><i></i></span>
+      <span>Built for the people rewriting healthcare</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============== TWEAKS ============== -->
+<div class="tweaks" id="tweaks">
+  <h6>Accent hue</h6>
+  <div class="row" id="accent-row"></div>
+  <h6>Font pairing</h6>
+  <div class="row" id="font-row"></div>
+</div>
+
+<script>
+  // ---------- episode placeholders ----------
+  const EPS = [
+    { n: 42, title: "The end of prior authorization (as we know it)", guest: "Guest · Payer CEO", tag: "Payers", dur: "48 min" },
+    { n: 41, title: "Ambient AI and the return of the 15-minute visit", guest: "Guest · Health system CMO", tag: "AI & Data", dur: "52 min" },
+    { n: 40, title: "Why most digital health bets didn't pencil — and the ones that did", guest: "Guest · Venture investor", tag: "Founders", dur: "39 min" },
+    { n: 39, title: "Rebuilding primary care on a capitated chassis", guest: "Guest · Clinic network founder", tag: "Providers", dur: "46 min" },
+    { n: 38, title: "The data platform thesis, five years in", guest: "Guest · Healthtech CEO", tag: "AI & Data", dur: "44 min" },
+    { n: 37, title: "What CMS won't say out loud", guest: "Guest · Former CMS official", tag: "Policy", dur: "41 min" },
+  ];
+  const list = document.getElementById('ep-list');
+  list.innerHTML = EPS.map(e => `
+    <div class="ep">
+      <div class="ep-num">EP ${String(e.n).padStart(3,'0')}</div>
+      <div class="ep-title">${e.title}</div>
+      <div class="ep-guest"><span class="tag">${e.tag}</span>${e.guest}</div>
+      <div class="ep-dur">${e.dur}</div>
+      <div class="ep-play"><span class="pb">▶</span> Play</div>
+    </div>`).join('');
+
+  // ---------- guests ----------
+  const GUESTS = [
+    ["Guest · Payer CEO", "Episode 42"],
+    ["Guest · Health system CMO", "Episode 41"],
+    ["Guest · VC Partner", "Episode 40"],
+    ["Guest · Clinic founder", "Episode 39"],
+    ["Guest · Healthtech CEO", "Episode 38"],
+    ["Guest · Former CMS", "Episode 37"],
+    ["Guest · PBM operator", "Episode 36"],
+    ["Guest · AI researcher", "Episode 35"],
+    ["Guest · Hospital CFO", "Episode 34"],
+    ["Guest · Policy analyst", "Episode 33"],
+    ["Guest · Founder", "Episode 32"],
+    ["Guest · Operator", "Episode 31"],
+  ];
+  document.getElementById('guest-grid').innerHTML = GUESTS.map(([n,r]) => `
+    <div class="g"><span class="g-name">${n}</span><span class="g-role">${r}</span></div>
+  `).join('');
+
+  // ---------- tweaks ----------
+  const ACCENTS = [
+    { name: "Signal blue", val: "#1f6feb", ink: "#0b3a99" },
+    { name: "Boombostic red", val: "#e23a3a", ink: "#8a1111" },
+    { name: "Clinical teal", val: "#0fa68f", ink: "#0a6b5c" },
+    { name: "Violet", val: "#7c5cff", ink: "#4b32b5" },
+    { name: "Ink (mono)", val: "#0a0b0d", ink: "#0a0b0d" },
+  ];
+  const FONTS = [
+    { id: "inter",   label: "Inter Tight + JetBrains Mono", sans: "'Inter Tight',system-ui,sans-serif", mono: "'JetBrains Mono',ui-monospace,monospace", disp: "'Inter Tight',system-ui,sans-serif", href: "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap", extra: "" },
+    { id: "sohne",   label: "Manrope + IBM Plex Mono", sans: "'Manrope',system-ui,sans-serif", mono: "'IBM Plex Mono',ui-monospace,monospace", disp: "'Manrope',system-ui,sans-serif", href: "https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap", extra: "" },
+    { id: "serif",   label: "Fraunces display + Inter + mono", sans: "'Inter',system-ui,sans-serif", mono: "'JetBrains Mono',ui-monospace,monospace", disp: "'Fraunces',Georgia,serif", href: "https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap", extra: "" },
+    { id: "helv",    label: "Helvetica Neue classic", sans: "'Helvetica Neue',Helvetica,Arial,sans-serif", mono: "'JetBrains Mono',ui-monospace,monospace", disp: "'Helvetica Neue',Helvetica,Arial,sans-serif", href: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap", extra: "" },
+  ];
+
+  const accentRow = document.getElementById('accent-row');
+  ACCENTS.forEach(a => {
+    const b = document.createElement('button');
+    b.className = 'sw'; b.dataset.val = a.val; b.dataset.ink = a.ink;
+    b.style.background = a.val; b.title = a.name;
+    b.onclick = () => setAccent(a.val, a.ink);
+    accentRow.appendChild(b);
+  });
+  const fontRow = document.getElementById('font-row');
+  FONTS.forEach(f => {
+    const b = document.createElement('button');
+    b.className = 'opt'; b.textContent = f.label; b.dataset.id = f.id;
+    b.onclick = () => setFont(f.id);
+    fontRow.appendChild(b);
+  });
+
+  function setAccent(val, ink){
+    document.documentElement.style.setProperty('--accent', val);
+    document.documentElement.style.setProperty('--accent-ink', ink || val);
+    [...accentRow.children].forEach(c => c.classList.toggle('on', c.dataset.val === val));
+    window.parent.postMessage({type:'__edit_mode_set_keys', edits:{accent: val}}, '*');
+  }
+  function setFont(id){
+    const f = FONTS.find(x => x.id === id); if (!f) return;
+    document.getElementById('font-sans').href = f.href;
+    document.documentElement.style.setProperty('--font-sans', f.sans);
+    document.documentElement.style.setProperty('--font-mono', f.mono);
+    document.documentElement.style.setProperty('--font-display', f.disp);
+    [...fontRow.children].forEach(c => c.classList.toggle('on', c.dataset.id === id));
+    window.parent.postMessage({type:'__edit_mode_set_keys', edits:{font: id}}, '*');
+  }
+
+  // init from defaults
+  (function init(){
+    const a = ACCENTS.find(x => x.val.toLowerCase() === (TWEAK_DEFAULTS.accent||'').toLowerCase()) || ACCENTS[0];
+    setAccent(a.val, a.ink);
+    setFont(TWEAK_DEFAULTS.font || 'inter');
+  })();
+
+  // tweaks host protocol
+  window.addEventListener('message', (e) => {
+    const d = e.data || {};
+    if (d.type === '__activate_edit_mode') document.getElementById('tweaks').classList.add('show');
+    if (d.type === '__deactivate_edit_mode') document.getElementById('tweaks').classList.remove('show');
+  });
+  window.parent.postMessage({type:'__edit_mode_available'}, '*');
+</script>
+</body>
+</html>
