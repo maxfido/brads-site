@@ -95,6 +95,42 @@ img { display: block; max-width: 100%; }
 .nav-right { display: flex; align-items: center; gap: 12px; }
 .nav-logo { height: 40px; width: auto; display: block; }
 
+/* ─── hamburger & mobile menu ─────────────────────────────── */
+.hamburger {
+  display: none; flex-direction: column; justify-content: center;
+  gap: 5px; width: 36px; height: 36px; padding: 6px;
+  border: none; background: transparent; cursor: pointer;
+  border-radius: 6px; flex-shrink: 0;
+}
+.hamburger span {
+  display: block; width: 100%; height: 1.5px;
+  background: var(--ink); border-radius: 2px;
+  transition: transform .22s, opacity .18s; transform-origin: center;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none; position: fixed;
+  top: 60px; left: 0; right: 0; height: calc(100dvh - 60px);
+  z-index: 49; background: var(--bg);
+  flex-direction: column; padding: 28px 24px 40px;
+  overflow-y: auto; border-top: 1px solid var(--line);
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu-nav { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+.mobile-menu-nav a {
+  font-family: var(--serif); font-size: 28px; font-weight: 500;
+  letter-spacing: -.02em; color: var(--ink);
+  padding: 18px 0; border-bottom: 1px solid var(--line);
+  transition: color .15s;
+}
+.mobile-menu-nav a:active { color: var(--accent); }
+.mobile-menu-cta { margin-top: 32px; }
+.mobile-menu-cta .btn { width: 100%; justify-content: center; padding: 15px 20px; font-size: 15px; }
+body.menu-open { overflow: hidden; }
+
 /* ─── buttons ─────────────────────────────────────────────── */
 .btn {
   display: inline-flex; align-items: center; gap: 7px;
@@ -702,6 +738,7 @@ footer { background: var(--bg-2); padding: 72px 0 40px; }
 @media (max-width: 960px) {
   .nav-links { display: none; }
   .btn-ghost { display: none; }
+  .hamburger { display: flex; }
 
   .hero { padding: 52px 0 0; }
   .hero-layout { grid-template-columns: 1fr; gap: 40px; }
@@ -763,8 +800,10 @@ footer { background: var(--bg-2); padding: 72px 0 40px; }
   .kpi .v { font-size: 19px; }
 
   .listen-inner { flex-direction: column; align-items: flex-start; gap: 14px; padding: 18px 0; }
-  .platforms { gap: 6px; }
-  .plat { font-size: 12.5px; padding: 7px 12px; }
+  .platforms { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 6px; padding-bottom: 4px; scrollbar-width: none; }
+  .platforms::-webkit-scrollbar { display: none; }
+  .plat { font-size: 12.5px; padding: 10px 14px; flex-shrink: 0; }
+  .mobile-menu { top: 56px; height: calc(100dvh - 56px); }
 
   section.block { padding: 56px 0; }
 
@@ -821,9 +860,25 @@ footer { background: var(--bg-2); padding: 72px 0 40px; }
     <div class="nav-right">
       <a class="btn btn-ghost" href="#episodes">Browse episodes</a>
       <a class="btn btn-accent" href="#newsletter">Subscribe <span class="arr">→</span></a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </header>
+
+<div class="mobile-menu" id="mobile-menu">
+  <nav class="mobile-menu-nav">
+    <a href="#episodes" onclick="closeMobileMenu()">Episodes</a>
+    <a href="#about" onclick="closeMobileMenu()">About Bradley</a>
+    <a href="#ecosystem" onclick="closeMobileMenu()">Ecosystem</a>
+    <a href="#press" onclick="closeMobileMenu()">Press</a>
+    <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+  </nav>
+  <div class="mobile-menu-cta">
+    <a class="btn btn-accent" href="#newsletter" onclick="closeMobileMenu()">Subscribe <span class="arr">→</span></a>
+  </div>
+</div>
 
 <!-- ═══ HERO ═══════════════════════════════════════════════════ -->
 <section class="hero">
@@ -1228,6 +1283,22 @@ const EPS = [
   { n:46, id:"j_Fsuy-BfTM", title:"The $1 Trillion Problem Nobody Talks About in Healthcare",  guest:"Fawad Butt",        role:"CEO, Penguin AI",              tag:"AI & Data",      dur:"14 min" },
   { n:45, id:"vYvWWQwk95c", title:"When Every Newborn Gets a Genomic Passport",                guest:"Gene by Gene Leadership",role:"",                        tag:"Genomics",       dur:"18 min" },
 ];
+
+// ── Mobile menu ──────────────────────────────────────────────
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('open');
+  hamburger.classList.toggle('open', open);
+  hamburger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  document.body.classList.toggle('menu-open', open);
+});
+function closeMobileMenu() {
+  mobileMenu.classList.remove('open');
+  hamburger.classList.remove('open');
+  hamburger.setAttribute('aria-label', 'Open menu');
+  document.body.classList.remove('menu-open');
+}
 
 // ── Contact form (Formspree) ──────────────────────────────────
 // Replace YOUR_FORM_ID with your ID from formspree.io/new
