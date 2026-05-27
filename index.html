@@ -984,8 +984,8 @@ footer { background: var(--bg-2); padding: 72px 0 40px; }
     </div>
 
     <div class="featured">
-      <a class="feat-thumb" href="https://www.youtube.com/watch?v=PY6r8JRO26A" target="_blank" rel="noopener">
-        <img src="https://i.ytimg.com/vi/PY6r8JRO26A/maxresdefault.jpg" alt="Building a Healthcare System That Actually Works">
+      <a id="feat-link" class="feat-thumb" href="https://www.youtube.com/watch?v=PY6r8JRO26A" target="_blank" rel="noopener">
+        <img id="feat-img" src="https://i.ytimg.com/vi/PY6r8JRO26A/maxresdefault.jpg" alt="Building a Healthcare System That Actually Works">
         <div class="play-btn">
           <div class="play-ring">
             <svg viewBox="0 0 16 16" fill="white" width="18" height="18"><path d="M4 3l9 5-9 5z"/></svg>
@@ -993,12 +993,12 @@ footer { background: var(--bg-2); padding: 72px 0 40px; }
         </div>
       </a>
       <div class="feat-info">
-        <span class="feat-badge">Ep. 57 · Featured</span>
-        <h3>Building a Healthcare System That Actually Works</h3>
-        <p class="guest">with <b>Dennis Murphy</b>, President &amp; CEO of IU Health, on scaling innovation across 16 hospitals, 300+ clinical sites, values-based culture, and platform-first AI strategy.</p>
+        <span id="feat-badge" class="feat-badge">Ep. 57 · Featured</span>
+        <h3 id="feat-title">Building a Healthcare System That Actually Works</h3>
+        <p id="feat-guest" class="guest">with <b>Dennis Murphy</b>, President &amp; CEO of IU Health, on scaling innovation across 16 hospitals, 300+ clinical sites, values-based culture, and platform-first AI strategy.</p>
         <div class="dur">37 min · Long-form · Recorded in-studio</div>
         <div class="feat-ctas">
-          <a href="#" class="btn btn-primary">
+          <a id="feat-play-btn" href="#" class="btn btn-primary">
             <svg viewBox="0 0 14 14" fill="currentColor" width="12" height="12"><path d="M3 2l9 5-9 5z"/></svg>
             Play episode
           </a>
@@ -1010,8 +1010,8 @@ footer { background: var(--bg-2); padding: 72px 0 40px; }
     <div class="ep-list" id="ep-list"></div>
 
     <div class="ep-foot">
-      <span class="note">Showing 12 of 60+ episodes</span>
-      <a href="#" class="btn btn-ghost">Load more <span class="arr">↓</span></a>
+      <span id="ep-count" class="note">Loading episodes…</span>
+      <a id="load-more-btn" href="#" class="btn btn-ghost">Load more <span class="arr">↓</span></a>
     </div>
   </div>
 </section>
@@ -1152,6 +1152,24 @@ footer { background: var(--bg-2); padding: 72px 0 40px; }
   </div>
 </section>
 
+<!-- ═══ NEWSLETTER ══════════════════════════════════════════════ -->
+<section class="nl" id="newsletter">
+  <div class="wrap nl-inner">
+    <div>
+      <span class="label inv">05 · The Dispatch</span>
+      <h2>Get the weekly brief<br><em>before it hits LinkedIn.</em></h2>
+      <p>One short email every Tuesday: the episode, the quote, and the signals that actually matter in the business of healthcare.</p>
+    </div>
+    <form class="nl-form" onsubmit="event.preventDefault();this.querySelector('button').textContent='Subscribed ✓'">
+      <div class="nl-field">
+        <input type="email" required placeholder="you@company.com">
+        <button type="submit">Join →</button>
+      </div>
+      <span class="nl-fine">No spam · Unsubscribe anytime · 7,000+ subscribers</span>
+    </form>
+  </div>
+</section>
+
 <!-- ═══ CONTACT ════════════════════════════════════════════════ -->
 <section class="block tinted" id="contact">
   <div class="wrap">
@@ -1216,24 +1234,6 @@ footer { background: var(--bg-2); padding: 72px 0 40px; }
   </div>
 </section>
 
-<!-- ═══ NEWSLETTER ══════════════════════════════════════════════ -->
-<section class="nl" id="newsletter">
-  <div class="wrap nl-inner">
-    <div>
-      <span class="label inv">05 · The Dispatch</span>
-      <h2>Get the weekly brief<br><em>before it hits LinkedIn.</em></h2>
-      <p>One short email every Tuesday: the episode, the quote, and the signals that actually matter in the business of healthcare.</p>
-    </div>
-    <form class="nl-form" onsubmit="event.preventDefault();this.querySelector('button').textContent='Subscribed ✓'">
-      <div class="nl-field">
-        <input type="email" required placeholder="you@company.com">
-        <button type="submit">Join →</button>
-      </div>
-      <span class="nl-fine">No spam · Unsubscribe anytime · 7,000+ subscribers</span>
-    </form>
-  </div>
-</section>
-
 <!-- ═══ FOOTER ══════════════════════════════════════════════════ -->
 <footer>
   <div class="wrap">
@@ -1274,23 +1274,31 @@ footer { background: var(--bg-2); padding: 72px 0 40px; }
 </footer>
 
 <script>
-const EPS = [
-  { n:56, id:"j_Lp-hErf2k", title:"Beat Pancreatic Cancer Before It Strikes",               guest:"Diana Caldwell",    role:"CEO, Amplified Sciences",      tag:"Diagnostics",    dur:"37 min" },
-  { n:55, id:"ajNqrOlfGFo", title:"Your Doctor Can't Access Your Records — Here's Why",       guest:"Bob Watson",        role:"CEO, Health Gorilla",          tag:"Interoperability",dur:"13 min" },
-  { n:54, id:"rQD9dmkZcg4", title:"The Shift Happening in Healthcare Right Now",               guest:"Eric Strafel",      role:"CEO, Molecular Testing Labs",  tag:"Diagnostics",    dur:"14 min" },
-  { n:53, id:"lBCiY7FxEY0", title:"The Gap Between Cancer Screening Access and Reality",       guest:"Jay Sitgreaves",    role:"New Day Diagnostics",          tag:"Screening",      dur:"14 min" },
-  { n:52, id:"Ifa9cZQwYX4", title:"This Partnership Just Changed Medication Affordability",    guest:"Dr. Sheena Menezes",role:"Simple Health Kit",            tag:"Access",         dur:"7 min"  },
-  { n:51, id:"KetVaTJnUec", title:"80% of Healthcare Data Is Locked Away — AI Is Breaking It", guest:"Dr. Tim O'Connell", role:"Emtelligent",                  tag:"AI & Data",      dur:"12 min" },
-  { n:50, id:"GPxRfU3yTpQ", title:"Beyond AI Hype: What's Real in Healthcare Now",            guest:"Dr. Luke Hansen",   role:"Arcadia",                      tag:"AI & Data",      dur:"13 min" },
-  { n:49, id:"YaJSZxrXRDw", title:"The Real Reason Patients Wait: Healthcare's Ops Failure",   guest:"Dr. David Atashroo",role:"Qventus",                      tag:"Operations",     dur:"17 min" },
-  { n:48, id:"FKV4nxRe_kI", title:"2 Million Patients, 320,000 Square Miles: How Sanford Did It",guest:"Dave Newman & Brad Reimer",role:"Sanford Health",   tag:"Health Systems",  dur:"20 min" },
-  { n:47, id:"v_hjdgJ_82M", title:"AI, Outcomes, and the Future of Care",                      guest:"Aneesh Chopra",     role:"Former US CTO",                tag:"Policy",         dur:"17 min" },
-  { n:46, id:"j_Fsuy-BfTM", title:"The $1 Trillion Problem Nobody Talks About in Healthcare",  guest:"Fawad Butt",        role:"CEO, Penguin AI",              tag:"AI & Data",      dur:"14 min" },
-  { n:45, id:"vYvWWQwk95c", title:"When Every Newborn Gets a Genomic Passport",                guest:"Gene by Gene Leadership",role:"",                        tag:"Genomics",       dur:"18 min" },
+// ── Config ───────────────────────────────────────────────────
+const FORMSPREE_ID = 'mlgaojjj';
+
+// Fallback episodes shown if the live feed is unavailable
+const FALLBACK_EPS = [
+  { n:56, id:"j_Lp-hErf2k", title:"Beat Pancreatic Cancer Before It Strikes",                guest:"Diana Caldwell",           role:"CEO, Amplified Sciences",     tag:"Diagnostics",     dur:"37 min" },
+  { n:55, id:"ajNqrOlfGFo", title:"Your Doctor Can't Access Your Records — Here's Why",       guest:"Bob Watson",               role:"CEO, Health Gorilla",         tag:"Interoperability",dur:"13 min" },
+  { n:54, id:"rQD9dmkZcg4", title:"The Shift Happening in Healthcare Right Now",              guest:"Eric Strafel",             role:"CEO, Molecular Testing Labs", tag:"Diagnostics",     dur:"14 min" },
+  { n:53, id:"lBCiY7FxEY0", title:"The Gap Between Cancer Screening Access and Reality",      guest:"Jay Sitgreaves",           role:"New Day Diagnostics",         tag:"Screening",       dur:"14 min" },
+  { n:52, id:"Ifa9cZQwYX4", title:"This Partnership Just Changed Medication Affordability",   guest:"Dr. Sheena Menezes",       role:"Simple Health Kit",           tag:"Access",          dur:"7 min"  },
+  { n:51, id:"KetVaTJnUec", title:"80% of Healthcare Data Is Locked Away — AI Is Breaking It",guest:"Dr. Tim O'Connell",        role:"Emtelligent",                 tag:"AI & Data",       dur:"12 min" },
+  { n:50, id:"GPxRfU3yTpQ", title:"Beyond AI Hype: What's Real in Healthcare Now",           guest:"Dr. Luke Hansen",          role:"Arcadia",                     tag:"AI & Data",       dur:"13 min" },
+  { n:49, id:"YaJSZxrXRDw", title:"The Real Reason Patients Wait: Healthcare's Ops Failure",  guest:"Dr. David Atashroo",       role:"Qventus",                     tag:"Operations",      dur:"17 min" },
+  { n:48, id:"FKV4nxRe_kI", title:"2 Million Patients, 320,000 Square Miles: How Sanford Did It",guest:"Dave Newman & Brad Reimer",role:"Sanford Health",            tag:"Health Systems",  dur:"20 min" },
+  { n:47, id:"v_hjdgJ_82M", title:"AI, Outcomes, and the Future of Care",                     guest:"Aneesh Chopra",            role:"Former US CTO",               tag:"Policy",          dur:"17 min" },
+  { n:46, id:"j_Fsuy-BfTM", title:"The $1 Trillion Problem Nobody Talks About in Healthcare", guest:"Fawad Butt",               role:"CEO, Penguin AI",             tag:"AI & Data",       dur:"14 min" },
+  { n:45, id:"vYvWWQwk95c", title:"When Every Newborn Gets a Genomic Passport",               guest:"Gene by Gene Leadership",  role:"",                            tag:"Genomics",        dur:"18 min" },
 ];
 
+let displayedCount = 0;
+let totalCount     = 0;
+let usingFallback  = false;
+
 // ── Mobile menu ──────────────────────────────────────────────
-const hamburger = document.getElementById('hamburger');
+const hamburger  = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobile-menu');
 hamburger.addEventListener('click', () => {
   const open = mobileMenu.classList.toggle('open');
@@ -1306,9 +1314,6 @@ function closeMobileMenu() {
 }
 
 // ── Contact form (Formspree) ──────────────────────────────────
-// Replace YOUR_FORM_ID with your ID from formspree.io/new
-const FORMSPREE_ID = 'mlgaojjj';
-
 document.getElementById('contact-form').addEventListener('submit', async function(e) {
   e.preventDefault();
   const btn    = document.getElementById('cf-btn');
@@ -1338,21 +1343,90 @@ document.getElementById('contact-form').addEventListener('submit', async functio
   btn.disabled = false;
 });
 
-// ── Episodes ─────────────────────────────────────────────────
-document.getElementById('ep-list').innerHTML = EPS.map(e => `
-  <div class="ep-row" onclick="window.open('https://www.youtube.com/watch?v=${e.id}','_blank')">
-    <div class="ep-num">EP ${String(e.n).padStart(3,'0')}</div>
-    <div class="ep-thumb">
-      <img src="https://i.ytimg.com/vi/${e.id}/mqdefault.jpg" alt="" loading="lazy">
-    </div>
-    <div class="ep-title">${e.title}</div>
-    <div class="ep-guest"><b>${e.guest}</b>${e.role ? '<br>' + e.role : ''}</div>
-    <div class="ep-meta">${e.tag}<br>${e.dur}</div>
-    <div class="ep-play">
-      <svg viewBox="0 0 12 12" width="10" height="10" fill="currentColor"><path d="M3 2l7 4-7 4z"/></svg>
-    </div>
-  </div>
-`).join('');
+// ── Helpers ───────────────────────────────────────────────────
+function fmtDate(iso) {
+  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function decodeHtml(str) {
+  return str
+    .replace(/&amp;/g,  '&')
+    .replace(/&lt;/g,   '<')
+    .replace(/&gt;/g,   '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g,  "'");
+}
+
+function updateCount() {
+  const total = totalCount || '60+';
+  document.getElementById('ep-count').textContent = `Showing ${displayedCount} of ${total} episodes`;
+}
+
+// ── Live feed rendering ───────────────────────────────────────
+function updateFeaturedEpisode(entry) {
+  const ytUrl = `https://www.youtube.com/watch?v=${entry.videoId}`;
+  document.getElementById('feat-link').href          = ytUrl;
+  document.getElementById('feat-img').src            = `https://i.ytimg.com/vi/${entry.videoId}/maxresdefault.jpg`;
+  document.getElementById('feat-img').alt            = decodeHtml(entry.title);
+  document.getElementById('feat-badge').textContent  = totalCount ? `Ep. ${totalCount} · Latest` : 'Latest · Featured';
+  document.getElementById('feat-title').textContent  = decodeHtml(entry.title);
+  document.getElementById('feat-guest').innerHTML    = `<i style="font-style:normal;color:var(--muted)">${fmtDate(entry.published)}</i>`;
+  document.getElementById('feat-play-btn').href      = ytUrl;
+}
+
+function renderFeedRows(entries) {
+  return entries.map((e, i) => {
+    const epNum = totalCount ? totalCount - i : '';
+    const label = epNum > 0 ? `EP ${String(epNum).padStart(3,'0')}` : '';
+    return `<div class="ep-row" onclick="window.open('https://www.youtube.com/watch?v=${e.videoId}','_blank')">
+      <div class="ep-num">${label}</div>
+      <div class="ep-thumb"><img src="${e.thumb}" alt="" loading="lazy"></div>
+      <div class="ep-title">${decodeHtml(e.title)}</div>
+      <div class="ep-guest"></div>
+      <div class="ep-meta">${fmtDate(e.published)}</div>
+      <div class="ep-play"><svg viewBox="0 0 12 12" width="10" height="10" fill="currentColor"><path d="M3 2l7 4-7 4z"/></svg></div>
+    </div>`;
+  }).join('');
+}
+
+// ── Fallback rendering ────────────────────────────────────────
+function renderFallback() {
+  usingFallback  = true;
+  totalCount     = FALLBACK_EPS.length;
+  displayedCount = FALLBACK_EPS.length;
+  document.getElementById('ep-list').innerHTML = FALLBACK_EPS.map(e => `
+    <div class="ep-row" onclick="window.open('https://www.youtube.com/watch?v=${e.id}','_blank')">
+      <div class="ep-num">EP ${String(e.n).padStart(3,'0')}</div>
+      <div class="ep-thumb"><img src="https://i.ytimg.com/vi/${e.id}/mqdefault.jpg" alt="" loading="lazy"></div>
+      <div class="ep-title">${e.title}</div>
+      <div class="ep-guest"><b>${e.guest}</b>${e.role ? '<br>' + e.role : ''}</div>
+      <div class="ep-meta">${e.tag}<br>${e.dur}</div>
+      <div class="ep-play"><svg viewBox="0 0 12 12" width="10" height="10" fill="currentColor"><path d="M3 2l7 4-7 4z"/></svg></div>
+    </div>`).join('');
+  updateCount();
+  document.getElementById('load-more-btn').style.display = 'none';
+}
+
+// ── Init: pull live feed from /api/feed ───────────────────────
+async function loadEpisodes() {
+  try {
+    const data = await fetch('/api/feed').then(r => r.json());
+    const entries = data.entries || [];
+    if (!entries.length) throw new Error('empty feed');
+    totalCount     = entries.length;
+    displayedCount = entries.length;
+    updateFeaturedEpisode(entries[0]);
+    document.getElementById('ep-list').innerHTML = renderFeedRows(entries);
+    updateCount();
+    document.getElementById('load-more-btn').style.display = 'none';
+  } catch {
+    renderFallback();
+  }
+}
+
+document.getElementById('load-more-btn').addEventListener('click', e => e.preventDefault());
+
+loadEpisodes();
 </script>
 </body>
 </html>
